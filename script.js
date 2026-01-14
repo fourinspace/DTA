@@ -1,49 +1,79 @@
-const socket = io('YOUR_SERVER_URL'); // Replace with your hosted server URL
+const socket = io('https://dta-2gfa.onrender.com');
+
 const localVideo = document.getElementById('localVideo');
 const remoteVideo = document.getElementById('remoteVideo');
+const startButton = document.getElementById('startButton');
 
 let localStream;
 let peerConnection;
 
-const config = { iceServers: [{ urls: 'stun:stun.l.google.com:19302' }] };
+// Using free Google STUN servers to help bypass firewalls
+const config = {
+    iceServers: [{ urls: 'stun:stun1.l.google.com:19302' }, { urls: 'stun:stun2.l.google.com:19302' }]
+};
 
-async function start() {
-    // 1. Get Camera/Mic
-    localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-    localVideo.srcObject = localStream;
+async function init() {
+    try {
+        localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        localVideo.srcObject = localStream;
+    } catch (err) {
+        console.error("Error accessing media devices.", err);
+    }
+}
 
-    // 2. Setup Peer Connection
+async function createPeerConnection() {
     peerConnection = new RTCPeerConnection(config);
-    localStream.getTracks().forEach(track => peerConnection.addTrack(track, localStream));
 
+    // Add local tracks to the connection
+    localStream.getTracks().forEach(track => {
+        peerConnection.addTrack(track, localStream);
+    });
+
+    // When remote video arrives, show it in remoteVideo element
     peerConnection.ontrack = (event) => {
         remoteVideo.srcObject = event.streams[0];
     };
 
+    // Send technical connection data (ICE candidates) to the other person
     peerConnection.onicecandidate = (event) => {
-        if (event.candidate) socket.emit('candidate', event.candidate);
+        if (event.candidate) {
+            socket.emit('candidate', event.candidate);
+        }
     };
-
-    // 3. Signaling Handlers
-    socket.on('offer', async (offer) => {
-        await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
-        const answer = await peerConnection.createAnswer();
-        await peerConnection.setLocalDescription(answer);
-        socket.emit('answer', answer);
-    });
-
-    socket.on('answer', async (answer) => {
-        await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
-    });
-
-    socket.on('candidate', async (candidate) => {
-        await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
-    });
 }
 
-document.getElementById('startButton').onclick = async () => {
-    await start();
+startButton.onclick = async () => {
+    await init();
+    await createPeerConnection();
+
+    // Create a call offer
     const offer = await peerConnection.createOffer();
     await peerConnection.setLocalDescription(offer);
     socket.emit('offer', offer);
 };
+
+// Handle incoming calls
+socket.on('offer', async (offer) => {
+    if (!peerConnection) {
+        await init();
+        await createPeerConnection();
+    }
+    await peerConnection.setRemoteDescription(new RTCSessionDescription(offer));
+    const answer = await peerConnection.createAnswer();
+    await peerConnection.setLocalDescription(answer);
+    socket.emit('answer', answer);
+});
+
+// Handle the call acceptance
+socket.on('answer', async (answer) => {
+    await peerConnection.setRemoteDescription(new RTCSessionDescription(answer));
+});
+
+// Handle technical connection data from the other person
+socket.on('candidate', async (candidate) => {
+    try {
+        await peerConnection.addIceCandidate(new RTCIceCandidate(candidate));
+    } catch (e) {
+        console.error('Error adding received ice candidate', e);
+    }
+});
