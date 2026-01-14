@@ -69,7 +69,7 @@
 
     <script>
         const data = {
-            france: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice"],
+            france: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille", "Rennes", "Reims", "Le Havre", "Saint-Étienne", "Toulon", "Grenoble", "Dijon", "Angers", "Nîmes", "Villeurbanne", "Mulhouse", "Rouen", "Clermont-Ferrand", "Caen", "Brest", "Orléans", "Tours", "Amiens", "Limoges", "Annecy"],
             usa: ["New York", "Los Angeles", "Chicago"],
             uk: ["London", "Manchester", "Birmingham"]
         };
@@ -81,7 +81,6 @@
         const timeInput = document.getElementById('timeInput');
         const btn = document.getElementById('goBtn');
 
-        // Country Change Logic
         countryEl.addEventListener('change', () => {
             const country = countryEl.value;
             cityEl.innerHTML = '<option value="" disabled selected>Select city</option>';
@@ -96,19 +95,16 @@
             }
         });
 
-        // City Change Logic -> Activates Date/Time
         cityEl.addEventListener('change', () => {
             if (cityEl.value) {
                 stage2.classList.remove('disabled');
                 btn.disabled = false;
-                // Set default values for today/now
                 const now = new Date();
                 dateInput.value = now.toISOString().split('T')[0];
                 timeInput.value = now.toTimeString().slice(0, 5);
             }
         });
 
-        // Input monitoring -> Updates Button Text
         [dateInput, timeInput].forEach(el => {
             el.addEventListener('input', () => {
                 if (dateInput.value && timeInput.value) {
@@ -119,7 +115,7 @@
 
         btn.onclick = () => {
             const room = `${countryEl.value}-${cityEl.value}`;
-            window.location.href = `chat.html#${room}`;
+            window.location.href = `availability.html#${room}`;
         };
     </script>
 </body>
