@@ -18,7 +18,6 @@
             margin-bottom: 10px; 
             border-radius: 12px; 
             border: 2px solid #eeeeee;
-            position: relative;
             transition: all 0.2s ease;
         }
 
@@ -29,22 +28,24 @@
             cursor: pointer;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
-        .active .guide-name { font-weight: 700; color: #000; }
-        .active .rating { color: #000; }
+        .active:hover { background: #f9f9f9; }
 
-        /* Inactive Style - Others */
+        /* Inactive Style */
         .inactive { 
             background: #fafafa; 
             border-color: transparent;
             opacity: 0.4; 
             cursor: not-allowed; 
         }
-        .inactive .guide-name { color: #888; }
         
         .avatar { width: 56px; height: 56px; background: #eee; border-radius: 50%; margin-right: 16px; overflow: hidden; }
+        .active .avatar { background: #000; border: 1px solid #000; }
+
         .details { flex-grow: 1; }
-        .guide-name { font-size: 18px; margin: 0; display: flex; align-items: center; gap: 8px; }
-        .rating { font-size: 14px; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+        .guide-name { font-size: 18px; margin: 0; font-weight: 500; }
+        .active .guide-name { font-weight: 700; }
+        .rating { font-size: 14px; margin-top: 4px; color: #666; }
+        .active .rating { color: #000; }
         .eta { font-size: 14px; font-weight: 600; text-align: right; }
     </style>
 </head>
@@ -52,7 +53,7 @@
     <div class="container">
         <div class="header">
             <a href="index.html" class="back-btn">←</a>
-            <h1 id="locHeader">Guides in Paris</h1>
+            <h1 id="locHeader">Guides</h1>
         </div>
 
         <div class="guide-card inactive">
@@ -100,7 +101,6 @@
     </div>
 
     <script>
-        // Set dynamic city name from URL
         const roomInfo = window.location.hash.substring(1).split('-');
         if(roomInfo[1]) {
             const cityName = roomInfo[1].charAt(0).toUpperCase() + roomInfo[1].slice(1);
@@ -108,7 +108,6 @@
         }
 
         function goToChat() {
-            // Forward the destination hash (e.g., #france-paris) to the chat page
             window.location.href = `chat.html${window.location.hash}`;
         }
     </script>
