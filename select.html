@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Destination</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f7f9; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px; text-align: center; }
+        h2 { color: #333; margin-bottom: 20px; font-size: 1.2rem; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; }
+        select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; appearance: none; background-color: #fff; cursor: pointer; }
+        button { width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+        button:hover { background-color: #0056b3; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+<div class="card" id="selection-card">
+    <h2>Choose your destination:</h2>
+    
+    <div class="form-group">
+        <label for="country">Country</label>
+        <select id="country">
+            <option value="france" selected>France</option>
+            <option value="usa">USA</option>
+            <option value="uk">United Kingdom</option>
+            <option value="germany">Germany</option>
+            </select>
+    </div>
+
+    <div class="form-group hidden" id="city-container">
+        <label for="city">City</label>
+        <select id="city">
+            </select>
+        <br><br>
+        <button id="enterButton">Start Video Chat</button>
+    </div>
+</div>
+
+<script>
+    // Data Object
+    const destinationData = {
+        france: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille", "Rennes", "Reims", "Le Havre", "Saint-Étienne", "Toulon", "Grenoble", "Dijon", "Angers", "Nîmes", "Villeurbanne", "Mulhouse", "Rouen", "Clermont-Ferrand", "Caen", "Brest", "Orléans", "Tours", "Amiens", "Limoges", "Annecy"],
+        usa: ["New York", "Los Angeles", "Chicago", "Houston", "Phoenix"],
+        uk: ["London", "Birmingham", "Manchester", "Glasgow", "Liverpool"],
+        germany: ["Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt"]
+    };
+
+    const countrySelect = document.getElementById('country');
+    const cityContainer = document.getElementById('city-container');
+    const citySelect = document.getElementById('city');
+    const enterButton = document.getElementById('enterButton');
+
+    function updateCities(country) {
+        // Clear old options
+        citySelect.innerHTML = '';
+        
+        if (destinationData[country]) {
+            // Populate new options
+            destinationData[country].forEach(city => {
+                const opt = document.createElement('option');
+                opt.value = city.toLowerCase().replace(/\s+/g, '-');
+                opt.innerText = city;
+                citySelect.appendChild(opt);
+            });
+            // Show the city dropdown
+            cityContainer.classList.remove('hidden');
+        } else {
+            cityContainer.classList.add('hidden');
+        }
+    }
+
+    // Trigger on page load because France is selected by default
+    window.onload = () => updateCities('france');
+
+    // Trigger when user changes country
+    countrySelect.addEventListener('change', (e) => {
+        updateCities(e.target.value);
+    });
+
+    // Handle button click
+    enterButton.addEventListener('click', () => {
+        const selectedCity = citySelect.value;
+        const selectedCountry = countrySelect.value;
+        
+        // Redirect to your main chat page with room info in the URL
+        // Example: index.html#france-paris
+        window.location.href = `index.html#${selectedCountry}-${selectedCity}`;
+    });
+</script>
+
+</body>
+</html>
