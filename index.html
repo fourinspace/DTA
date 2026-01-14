@@ -3,25 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Destination</title>
+    <title>Destination Select</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f7f9; margin: 0; }
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px; text-align: center; }
-        h2 { color: #333; margin-bottom: 20px; font-size: 1.1rem; }
-        .form-group { margin-bottom: 20px; text-align: left; }
-        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; font-size: 0.9rem; }
-        select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; background-color: #fff; cursor: pointer; }
-        select:disabled { background-color: #f0f0f0; cursor: not-allowed; color: #999; }
-        button { width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; display: none; }
-        button:hover { background-color: #0056b3; }
+        body { font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background: #f0f2f5; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 320px; text-align: center; }
+        select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
+        button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        button:hover { background: #0056b3; }
+        label { display: block; text-align: left; font-weight: bold; margin-top: 10px; color: #555; }
     </style>
 </head>
 <body>
-
-<div class="card">
-    <h2>Choose your destination:</h2>
-    
-    <div class="form-group">
+    <div class="card">
+        <h2>Destination</h2>
+        
         <label>Select the country</label>
         <select id="country">
             <option value="" disabled selected>-- Choose Country --</option>
@@ -29,58 +24,48 @@
             <option value="usa">USA</option>
             <option value="uk">United Kingdom</option>
         </select>
-    </div>
 
-    <div class="form-group" id="city-group">
         <label>Select the city</label>
         <select id="city" disabled>
             <option value="" disabled selected>-- Select country first --</option>
         </select>
+
+        <button id="goBtn" style="display:none;">Start Video Chat</button>
     </div>
 
-    <button id="enterButton">Start Video Chat</button>
-</div>
+    <script>
+        const data = {
+            france: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille", "Rennes", "Reims", "Le Havre", "Saint-Étienne", "Toulon", "Grenoble", "Dijon", "Angers", "Nîmes", "Villeurbanne", "Mulhouse", "Rouen", "Clermont-Ferrand", "Caen", "Brest", "Orléans", "Tours", "Amiens", "Limoges", "Annecy"],
+            usa: ["New York", "Los Angeles", "Chicago"],
+            uk: ["London", "Manchester", "Birmingham"]
+        };
 
-<script>
-    const destinationData = {
-        france: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille", "Rennes", "Reims", "Le Havre", "Saint-Étienne", "Toulon", "Grenoble", "Dijon", "Angers", "Nîmes", "Villeurbanne", "Mulhouse", "Rouen", "Clermont-Ferrand", "Caen", "Brest", "Orléans", "Tours", "Amiens", "Limoges", "Annecy"],
-        usa: ["New York", "Los Angeles", "Chicago"],
-        uk: ["London", "Manchester", "Birmingham"]
-    };
+        const countryEl = document.getElementById('country');
+        const cityEl = document.getElementById('city');
+        const btn = document.getElementById('goBtn');
 
-    const countrySelect = document.getElementById('country');
-    const citySelect = document.getElementById('city');
-    const enterButton = document.getElementById('enterButton');
+        countryEl.addEventListener('change', () => {
+            const country = countryEl.value;
+            cityEl.innerHTML = '<option value="" disabled selected>Select the city</option>';
+            
+            if (data[country]) {
+                cityEl.disabled = false;
+                data[country].forEach(city => {
+                    const opt = document.createElement('option');
+                    opt.value = city.toLowerCase().replace(/\s+/g, '-');
+                    opt.innerText = city;
+                    cityEl.appendChild(opt);
+                });
+                // Default to first city (e.g. Paris)
+                cityEl.selectedIndex = 1;
+                btn.style.display = 'block';
+            }
+        });
 
-    countrySelect.addEventListener('change', (e) => {
-        const country = e.target.value;
-        
-        // Reset City Dropdown
-        citySelect.innerHTML = '<option value="" disabled selected>Select the city</option>';
-        
-        if (destinationData[country]) {
-            // Enable and populate
-            citySelect.disabled = false;
-            destinationData[country].forEach(city => {
-                const opt = document.createElement('option');
-                opt.value = city.toLowerCase().replace(/\s+/g, '-');
-                opt.innerText = city;
-                citySelect.appendChild(opt);
-            });
-            // Auto-select first city (Paris if France)
-            citySelect.selectedIndex = 1; 
-            enterButton.style.display = 'block';
-        }
-    });
-
-    enterButton.onclick = () => {
-        const room = `${countrySelect.value}-${citySelect.value}`;
-        window.location.href = `index.html#${room}`;
-    };
-</script>
-
+        btn.onclick = () => {
+            const room = `${countryEl.value}-${cityEl.value}`;
+            window.location.href = `chat.html#${room}`;
+        };
+    </script>
 </body>
 </html>
-
-
-
