@@ -99,18 +99,13 @@
             if (cityEl.value) {
                 stage2.classList.remove('disabled');
                 btn.disabled = false;
+                btn.innerText = "See availability"; // Force change here when city is picked
+                
+                // Set default values
                 const now = new Date();
                 dateInput.value = now.toISOString().split('T')[0];
                 timeInput.value = now.toTimeString().slice(0, 5);
             }
-        });
-
-        [dateInput, timeInput].forEach(el => {
-            el.addEventListener('input', () => {
-                if (dateInput.value && timeInput.value) {
-                    btn.innerText = "See availability";
-                }
-            });
         });
 
         btn.onclick = () => {
