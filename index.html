@@ -23,8 +23,9 @@
         
         .disabled { opacity: 0.3; pointer-events: none; }
         
-        .btn-black { background: black; color: white; border: none; padding: 16px 32px; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 24px; width: 100%; transition: opacity 0.3s; }
-        .btn-black:disabled { opacity: 0.3; cursor: not-allowed; }
+        /* Updated Button Styles */
+        .btn-black { background: black; color: white; border: none; padding: 16px 32px; border-radius: 12px; font-size: 18px; font-weight: 600; cursor: pointer; margin-top: 24px; width: 100%; transition: all 0.3s; }
+        .btn-black:disabled { background: #cecece; color: #ffffff; cursor: not-allowed; }
     </style>
 </head>
 <body>
@@ -64,7 +65,7 @@
             </div>
         </div>
 
-        <button id="goBtn" class="btn-black" disabled>See prices</button>
+        <button id="goBtn" class="btn-black" disabled>See availability</button>
     </div>
 
     <script>
@@ -99,9 +100,6 @@
             if (cityEl.value) {
                 stage2.classList.remove('disabled');
                 btn.disabled = false;
-                btn.innerText = "See availability"; // Force change here when city is picked
-                
-                // Set default values
                 const now = new Date();
                 dateInput.value = now.toISOString().split('T')[0];
                 timeInput.value = now.toTimeString().slice(0, 5);
