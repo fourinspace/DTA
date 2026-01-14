@@ -1,21 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Simple WebRTC</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Destination</title>
     <style>
-        video { width: 45%; border: 2px solid #333; margin: 10px; border-radius: 8px; }
-        #container { text-align: center; font-family: sans-serif; }
+        body { font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f4f7f9; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 350px; text-align: center; }
+        h2 { color: #333; margin-bottom: 20px; font-size: 1.1rem; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; color: #555; font-size: 0.9rem; }
+        select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; background-color: #fff; cursor: pointer; }
+        select:disabled { background-color: #f0f0f0; cursor: not-allowed; color: #999; }
+        button { width: 100%; padding: 12px; background-color: #007bff; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; display: none; }
+        button:hover { background-color: #0056b3; }
     </style>
 </head>
 <body>
-    <div id="container">
-        <h2>WebRTC Video Chat</h2>
-        <video id="localVideo" autoplay muted playsinline></video>
-        <video id="remoteVideo" autoplay playsinline></video>
-        <br>
-        <button id="startButton">Start Call</button>
+
+<div class="card">
+    <h2>Choose your destination:</h2>
+    
+    <div class="form-group">
+        <label>Select the country</label>
+        <select id="country">
+            <option value="" disabled selected>-- Choose Country --</option>
+            <option value="france">France</option>
+            <option value="usa">USA</option>
+            <option value="uk">United Kingdom</option>
+        </select>
     </div>
-    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
-    <script src="script.js"></script>
+
+    <div class="form-group" id="city-group">
+        <label>Select the city</label>
+        <select id="city" disabled>
+            <option value="" disabled selected>-- Select country first --</option>
+        </select>
+    </div>
+
+    <button id="enterButton">Start Video Chat</button>
+</div>
+
+<script>
+    const destinationData = {
+        france: ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille", "Rennes", "Reims", "Le Havre", "Saint-Étienne", "Toulon", "Grenoble", "Dijon", "Angers", "Nîmes", "Villeurbanne", "Mulhouse", "Rouen", "Clermont-Ferrand", "Caen", "Brest", "Orléans", "Tours", "Amiens", "Limoges", "Annecy"],
+        usa: ["New York", "Los Angeles", "Chicago"],
+        uk: ["London", "Manchester", "Birmingham"]
+    };
+
+    const countrySelect = document.getElementById('country');
+    const citySelect = document.getElementById('city');
+    const enterButton = document.getElementById('enterButton');
+
+    countrySelect.addEventListener('change', (e) => {
+        const country = e.target.value;
+        
+        // Reset City Dropdown
+        citySelect.innerHTML = '<option value="" disabled selected>Select the city</option>';
+        
+        if (destinationData[country]) {
+            // Enable and populate
+            citySelect.disabled = false;
+            destinationData[country].forEach(city => {
+                const opt = document.createElement('option');
+                opt.value = city.toLowerCase().replace(/\s+/g, '-');
+                opt.innerText = city;
+                citySelect.appendChild(opt);
+            });
+            // Auto-select first city (Paris if France)
+            citySelect.selectedIndex = 1; 
+            enterButton.style.display = 'block';
+        }
+    });
+
+    enterButton.onclick = () => {
+        const room = `${countrySelect.value}-${citySelect.value}`;
+        window.location.href = `index.html#${room}`;
+    };
+</script>
+
 </body>
 </html>
+
+
+
