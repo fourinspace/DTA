@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Your Route</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        body { font-family: 'Inter', sans-serif; margin: 0; background: #fff; }
+        #map { height: 60vh; width: 100%; }
+        .ui-panel { padding: 20px; max-width: 400px; margin: 0 auto; }
+        .selection-box { position: relative; background: #f3f3f3; border-radius: 8px; margin-bottom: 8px; padding: 12px 16px; display: flex; align-items: center; }
+        .dot { width: 8px; height: 8px; margin-right: 15px; }
+        .dot-a { background: black; border-radius: 50%; }
+        .dot-b { background: black; }
+        .line { position: absolute; left: 19.5px; top: 35px; width: 1px; height: 25px; background: black; }
+        input { width: 100%; border: none; background: transparent; font-size: 16px; outline: none; padding-top: 10px; }
+        label { position: absolute; font-size: 11px; top: 8px; left: 40px; color: #555; text-transform: uppercase; font-weight: 600; }
+        .btn-black { background: black; color: white; border: none; padding: 16px; border-radius: 12px; font-size: 18px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 10px; }
+        .instruction { font-size: 14px; color: #666; margin-bottom: 10px; text-align: center; }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+
+    <div class="ui-panel">
+        <p class="instruction">Tap the map to set Point A and Point B</p>
+        
+        <div class="selection-box">
+            <div class="dot dot-a"></div>
+            <div class="line"></div>
+            <label>Starting Point (A)</label>
+            <input type="text" id="pointA" placeholder="Tap map for Start" readonly>
+        </div>
+
+        <div class="selection-box">
+            <div class="dot dot-b"></div>
+            <label>End Point (B)</label>
+            <input type="text" id="pointB" placeholder="Tap map for Destination" readonly>
+        </div>
+
+        <button id="startTrip" class="btn-black" style="display: none;">Start Trip</button>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Use coordinates for the city from the previous selection
+        const cityCoords = { "paris": [48.8566, 2.3522], "london": [51.5074, -0.1278] };
+        const roomHash = window.location.hash.substring(1).split('-')[1] || "paris";
+        
+        const map = L.map('map').setView(cityCoords[roomHash] || [48.8566, 2.3522], 14);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png').addTo(map);
+
+        let markers = [];
+        let polyline;
+
+        map.on('click', function(e) {
+            if (markers.length >= 2) {
+                // Reset if third click
+                markers.forEach(m => map.removeLayer(m));
+                if (polyline) map.removeLayer(polyline);
+                markers = [];
+                document.getElementById('startTrip').style.display = 'none';
+            }
+
+            const marker = L.marker(e.latlng).addTo(map);
+            markers.push(marker);
+
+            if (markers.length === 1) {
+                document.getElementById('pointA').value = "Location Set";
+            } else if (markers.length === 2) {
+                document.getElementById('pointB').value = "Destination Set";
+                // Draw a line between A and B
+                polyline = L.polyline([markers[0].getLatLng(), markers[1].getLatLng()], {color: 'black'}).addTo(map);
+                document.getElementById('startTrip').style.display = 'block';
+            }
+        });
+
+        document.getElementById('startTrip').onclick = () => {
+            window.location.href = `chat.html${window.location.hash}`;
+        };
+    </script>
+</body>
+</html>
