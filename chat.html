@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Simple WebRTC</title>
+    <style>
+        video { width: 45%; border: 2px solid #333; margin: 10px; border-radius: 8px; }
+        #container { text-align: center; font-family: sans-serif; }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>WebRTC Video Chat</h2>
+        <video id="localVideo" autoplay muted playsinline></video>
+        <video id="remoteVideo" autoplay playsinline></video>
+        <br>
+        <button id="startButton">Start Call</button>
+    </div>
+    <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
