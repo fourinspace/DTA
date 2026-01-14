@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Simple WebRTC</title>
+    <title>DTA Video Chat</title>
     <style>
-        video { width: 45%; border: 2px solid #333; margin: 10px; border-radius: 8px; }
-        #container { text-align: center; font-family: sans-serif; }
+        body { text-align: center; font-family: sans-serif; background: #1a1a1a; color: white; }
+        video { width: 45%; max-width: 500px; border: 2px solid #444; margin: 10px; border-radius: 12px; background: #000; }
+        .room-info { margin: 20px; color: #00ff00; font-weight: bold; }
+        button { padding: 10px 20px; border-radius: 5px; border: none; background: #ff4444; color: white; cursor: pointer; }
     </style>
 </head>
 <body>
-    <div id="container">
-        <h2>WebRTC Video Chat</h2>
-        <video id="localVideo" autoplay muted playsinline></video>
-        <video id="remoteVideo" autoplay playsinline></video>
-        <br>
-        <button id="startButton">Start Call</button>
-    </div>
+    <div class="room-info" id="roomDisplay">Connecting...</div>
+    <video id="localVideo" autoplay muted playsinline></video>
+    <video id="remoteVideo" autoplay playsinline></video>
+    <br>
+    <button onclick="window.location.href='index.html'">Leave Call</button>
+
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
     <script src="script.js"></script>
 </body>
