@@ -1,112 +1,79 @@
-<div class="carousel-container">
-    <div class="carousel-track">
-        <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80');">
-            <div class="banner-content">
-                <span class="live-tag">LIVE NOW</span>
-                <h1>Parisian Morning</h1>
-                <p>Walking through the heart of Le Marais.</p>
-            </div>
-        </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTA Explorer - Travel Without Moving</title>
+    <style>
+        /* Core Dark Theme - Dominated by Black */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #000000; 
+            color: #ffffff; 
+            margin: 0; 
+            overflow-x: hidden;
+        }
 
-        <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1551698618-1fed5d97530d?auto=format&fit=crop&w=1200&q=80');">
-            <div class="banner-content">
-                <span class="live-tag">LIVE NOW</span>
-                <h1>Alpine Descent</h1>
-                <p>First tracks on the Swiss Matterhorn.</p>
-            </div>
-        </div>
+        /* 1. TOP NAV - Updated with Active Gradient Background */
+        .header {
+            background: linear-gradient(-45deg, #FF1B6B, #45CAFF, #222, #FF1B6B);
+            background-size: 400% 400%;
+            animation: flow 12s ease infinite;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .logo { font-weight: 800; font-size: 20px; letter-spacing: -1px; color: #fff; }
+        
+        .search-bar {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
+            border-radius: 8px;
+            width: 400px;
+            color: white;
+            outline: none;
+        }
+        .search-bar::placeholder { color: rgba(255, 255, 255, 0.7); }
 
-        <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80');">
-            <div class="banner-content">
-                <span class="live-tag">LIVE NOW</span>
-                <h1>Peak Ascent</h1>
-                <p>Reaching the summit of the Dolomites.</p>
-            </div>
-        </div>
+        /* 2. SIDEBAR - Kick Influenced but Minimal */
+        .sidebar {
+            width: 260px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            background: #000;
+            border-right: 1px solid #111;
+            padding: 20px 10px;
+        }
+        .sidebar-section { margin-bottom: 30px; }
+        .sidebar-label { color: #555; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 15px; padding-left: 10px; }
+        .sidebar-item { display: flex; align-items: center; padding: 10px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .sidebar-item:hover { background: #111; }
+        .avatar { width: 30px; height: 30px; border-radius: 50%; background: #333; margin-right: 12px; }
+        .online-dot { width: 8px; height: 8px; border-radius: 50%; background: #00E701; margin-left: auto; }
 
-        <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1200&q=80');">
-            <div class="banner-content">
-                <span class="live-tag">LIVE NOW</span>
-                <h1>Copacabana Vibes</h1>
-                <p>Sunset walk on Rio's most famous beach.</p>
-            </div>
-        </div>
+        /* 3. MAIN CONTENT */
+        .main-content { margin-left: 260px; padding: 40px; }
 
-        <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=1200&q=80');">
-            <div class="banner-content">
-                <span class="live-tag">LIVE NOW</span>
-                <h1>Garden City</h1>
-                <p>Exploring the Supertree Grove at night.</p>
-            </div>
-        </div>
-    </div>
-    
-    <div class="carousel-nav">
-        <span>Scroll to explore</span>
-        <div class="nav-dots">
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
-    </div>
-</div>
+        /* CAROUSEL STYLES */
+        .carousel-container {
+            width: 100%;
+            margin-bottom: 50px;
+            position: relative;
+        }
 
-<style>
-    /* Carousel Specific Styles */
-    .carousel-container {
-        width: 100%;
-        margin-bottom: 50px;
-        position: relative;
-    }
-
-    .carousel-track {
-        display: flex;
-        overflow-x: auto;
-        scroll-snap-type: x mandatory;
-        scroll-behavior: smooth;
-        border-radius: 16px;
-        -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
-        scrollbar-width: none; /* Hide scrollbar Firefox */
-    }
-
-    .carousel-track::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
-
-    .carousel-slide {
-        min-width: 100%;
-        height: 400px;
-        scroll-snap-align: start;
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        align-items: flex-end;
-        padding: 40px;
-        box-sizing: border-box;
-    }
-
-    .live-tag {
-        background: #FF1B6B;
-        color: white;
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 11px;
-        font-weight: 800;
-        margin-bottom: 15px;
-        display: inline-block;
-    }
-
-    .carousel-nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-top: 15px;
-        padding: 0 10px;
-        font-size: 12px;
-        color: #666;
-    }
-
-    .nav-dots { display: flex; gap: 8px; }
-    .dot { width: 6px; height: 6px; background: #333; border-radius: 50%; opacity: 0.5; }
-    .dot.active { background: #45CAFF; opacity: 1; transform: scale(1.2); }
-</style>
+        .carousel-track {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            border-radius: 12px;
+            -ms-overflow-
