@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTA Live - Travel Without Moving</title>
+    <style>
+        /* Base Styling - Uber Minimalist */
+        body { font-family: 'Inter', sans-serif; background: #ffffff; margin: 0; color: #000; }
+        
+        /* 1. GREEN PROMO BAR */
+        .top-promo-bar {
+            background-color: #e6f4ea;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: center;
+            font-size: 13px;
+            border-bottom: 1px solid #d1e7dd;
+        }
+        .promo-content { max-width: 1400px; width: 100%; display: flex; justify-content: space-between; align-items: center; }
+
+        /* 2. SIDEBAR - Kick Style but Uber Clean */
+        .sidebar {
+            width: 240px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 45px;
+            background: #fcfcfc;
+            border-right: 1px solid #eee;
+            padding: 20px 10px;
+            overflow-y: auto;
+        }
+        .sidebar-title { font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; padding-left: 10px; margin-bottom: 15px; }
+        .sidebar-item { display: flex; align-items: center; padding: 10px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .sidebar-item:hover { background: #f0f0f0; }
+        .avatar-small { width: 32px; height: 32px; border-radius: 50%; background: #000; margin-right: 12px; }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #00ff00; margin-left: auto; }
+
+        /* 3. MAIN CONTENT AREA */
+        .main-view { margin-left: 240px; padding: 40px; max-width: 1200px; }
+
+        /* HERO SECTION - The Animated Gradient Area */
+        .featured-hero {
+            width: 100%;
+            height: 350px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            padding: 40px;
+            color: white;
+            position: relative;
+            background: linear-gradient(-45deg, #FF1B6B, #45CAFF, #6A5ACD);
+            background-size: 400% 400%;
+            animation: moveGradient 12s ease infinite;
+        }
+        .hero-text h1 { font-size: 48px; margin: 0; letter-spacing: -2px; }
+        .hero-text p { font-size: 18px; opacity: 0.9; }
+
+        /* 4. TRAVEL CATEGORIES GRID */
+        .grid-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
+        
+        .card { cursor: pointer; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-5px); }
+        .card-image { 
+            aspect-ratio: 3/4; 
+            background: #eee; 
+            border-radius: 12px; 
+            margin-bottom: 10px; 
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #eee;
+        }
+        /* Gradient Overlay for Card Images */
+        .card-image::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+        }
+        .tag { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; z-index: 1; }
+        
+        .card-title { font-weight: 700; font-size: 16px; margin: 0; }
+        .card-meta { font-size: 13px; color: #666; margin-top: 4px; }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-promo-bar">
+        <div class="promo-content">
+            <span><b>DTA Live</b> • 152 Guides currently broadcasting live.</span>
+            <span style="font-weight: 700; text-decoration: underline; cursor: pointer;">Join as a Guide</span>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="sidebar-title">Recommended Guides</div>
+        <div class="sidebar-item">
+            <div class="avatar-small"></div>
+            <div>
+                <div style="font-weight: 700; font-size: 13px;">Max_Paris</div>
+                <div style="font-size: 11px; color: #666;">Walking Tour</div>
+            </div>
+            <div class="status-dot"></div>
+        </div>
+        <div class="sidebar-item">
+            <div class="avatar-small" style="background: #FF1B6B;"></div>
+            <div>
+                <div style="font-weight: 700; font-size: 13px;">Kimi_Tokyo</div>
+                <div style="font-size: 11px; color: #666;">Night Markets</div>
+            </div>
+            <div class="status-dot"></div>
+        </div>
+    </div>
+
+    <div class="main-view">
+        <div class="featured-hero">
+            <div class="hero-text">
+                <h1>Live the World.</h1>
+                <p>Join live immersive walks from 200+ cities.</p>
+                <button style="background: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer;">Explore Now</button>
+            </div>
+        </div>
+
+        <div class="grid-header">
+            <h2 style="font-size: 24px; letter-spacing: -1px;">Top Live Categories</h2>
+            <span style="font-weight: 600; color: #666; cursor: pointer;">View all</span>
+        </div>
+
+        <div class="category-grid">
+            <div class="card">
+                <div class="card-image" style="background: #f8f8f8 url('https://images.unsplash.com/photo-1543349689-9a4d426bee8e?auto=format&fit=crop&w=300&q=80') center/cover;">
+                    <span class="tag">HISTORICAL</span>
+                </div>
+                <p class="card-title">Classic Architecture</p>
+                <p class="card-meta">2.4k watching</p>
+            </div>
+
+            <div class="card">
+                <div class="card-image" style="background: #f8f8f8 url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=300&q=80') center/cover;">
+                    <span class="tag">FOODIE</span>
+                </div>
+                <p class="card-title">Street Food Tours</p>
+                <p class="card-meta">5.1k watching</p>
+            </div>
+
+            <div class="card">
+                <div class="card-image" style="background: #f8f8f8 url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=300&q=80') center/cover;">
+                    <span class="tag">NATURE</span>
+                </div>
+                <p class="card-title">National Parks</p>
+                <p class="card-meta">1.2k watching</p>
+            </div>
+
+            <div class="card">
+                <div class="card-image" style="background: #f8f8f8 url('https://images.unsplash.com/photo-1514525253361-bee8718a300a?auto=format&fit=crop&w=300&q=80') center/cover;">
+                    <span class="tag">NIGHTLIFE</span>
+                </div>
+                <p class="card-title">City Lights & Clubs</p>
+                <p class="card-meta">8.3k watching</p>
+            </div>
+
+            <div class="card">
+                <div class="card-image" style="background: #f8f8f8 url('https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=300&q=80') center/cover;">
+                    <span class="tag">CULTURE</span>
+                </div>
+                <p class="card-title">Museum Walks</p>
+                <p class="card-meta">750 watching</p>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
