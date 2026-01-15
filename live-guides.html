@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DTA Explorer - Travel Without Moving</title>
     <style>
-        /* Core Dark Theme */
+        /* Core Dark Theme - Dominated by Black */
         body { 
             font-family: 'Inter', sans-serif; 
             background-color: #000000; 
@@ -14,13 +14,13 @@
             overflow-x: hidden;
         }
 
-        /* 1. FULL GRADIENT HEADER */
+        /* 1. TOP NAV - Updated with Active Gradient Background */
         .header {
-            /* Using your colors with a 3rd dark purple to blend into the black theme */
+            /* Applied your Pink and Aqua colors to the full header background */
             background: linear-gradient(-45deg, #FF1B6B, #45CAFF, #222, #FF1B6B);
             background-size: 400% 400%;
             animation: flow 12s ease infinite;
-            
+
             padding: 15px 30px;
             display: flex;
             justify-content: space-between;
@@ -28,44 +28,25 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-
-        /* 2. HEADER ELEMENTS - Uber Style */
-        .logo { 
-            font-weight: 800; 
-            font-size: 22px; 
-            letter-spacing: -1px; 
-            color: #fff;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-
+        
+        .logo { font-weight: 800; font-size: 20px; letter-spacing: -1px; color: #fff; }
+        
         .search-bar {
-            background: rgba(255, 255, 255, 0.2); /* Semi-transparent white for glass effect */
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 20px;
+            /* Adjusted for better visibility on a moving background */
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 15px;
             border-radius: 8px;
             width: 400px;
             color: white;
             outline: none;
-            transition: 0.3s;
         }
         .search-bar::placeholder { color: rgba(255, 255, 255, 0.7); }
-        .search-bar:focus { background: rgba(255, 255, 255, 0.3); width: 450px; }
 
-        .login-btn {
-            font-weight: 700;
-            cursor: pointer;
-            background: #fff;
-            color: #000;
-            padding: 8px 20px;
-            border-radius: 6px;
-            transition: transform 0.2s;
-        }
-        .login-btn:hover { transform: scale(1.05); }
-
-        /* 3. SIDEBAR */
+        /* 2. SIDEBAR - Kick Influenced but Minimal */
         .sidebar {
             width: 260px;
             height: 100vh;
@@ -75,14 +56,17 @@
             border-right: 1px solid #111;
             padding: 20px 10px;
         }
+        .sidebar-section { margin-bottom: 30px; }
         .sidebar-label { color: #555; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 15px; padding-left: 10px; }
-        .sidebar-item { display: flex; align-items: center; padding: 10px; border-radius: 8px; cursor: pointer; }
+        .sidebar-item { display: flex; align-items: center; padding: 10px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
         .sidebar-item:hover { background: #111; }
         .avatar { width: 30px; height: 30px; border-radius: 50%; background: #333; margin-right: 12px; }
+        .online-dot { width: 8px; height: 8px; border-radius: 50%; background: #00E701; margin-left: auto; }
 
-        /* 4. MAIN CONTENT & HERO */
+        /* 3. MAIN CONTENT - Roblox Influenced Grid */
         .main-content { margin-left: 260px; padding: 40px; }
 
+        /* FEATURED CATEGORY - Animated Gradient Accent */
         .featured-banner {
             height: 300px;
             border-radius: 12px;
@@ -95,7 +79,6 @@
             background: linear-gradient(-45deg, #000, #FF1B6B, #45CAFF, #000);
             background-size: 400% 400%;
             animation: flow 15s ease infinite;
-            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         @keyframes flow {
@@ -106,16 +89,34 @@
 
         .banner-content h1 { font-size: 48px; margin: 0; font-weight: 900; letter-spacing: -2px; }
 
-        /* GRID */
+        /* GAME/CATEGORY GRID */
+        .grid-section { margin-bottom: 40px; }
+        .grid-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
         .category-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 20px;
         }
-        .card { background: #111; border-radius: 8px; overflow: hidden; border: 1px solid #1a1a1a; cursor: pointer; }
+
+        /* Category Card - Tilted Roblox Style */
+        .card {
+            background: #111;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #1a1a1a;
+        }
+        .card:hover {
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 0 10px 30px rgba(69, 202, 255, 0.2);
+            border-color: #45CAFF;
+        }
         .card-img { aspect-ratio: 1/1; background: #222; width: 100%; object-fit: cover; }
         .card-info { padding: 12px; }
         .card-name { font-weight: 700; font-size: 14px; margin: 0; }
+        .card-stat { font-size: 11px; color: #666; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+
     </style>
 </head>
 <body>
@@ -123,7 +124,7 @@
     <header class="header">
         <div class="logo">DTA EXPLORE</div>
         <input type="text" class="search-bar" placeholder="Search cities, guides, or landmarks...">
-        <div class="login-btn">Log In</div>
+        <div style="font-weight: 600; cursor: pointer;">Log In</div>
     </header>
 
     <div class="sidebar">
@@ -132,11 +133,20 @@
             <div class="sidebar-item">
                 <div class="avatar" style="background: #FF1B6B;"></div>
                 <div style="font-size: 13px;">Max (Paris)</div>
+                <div class="online-dot"></div>
             </div>
             <div class="sidebar-item">
                 <div class="avatar" style="background: #45CAFF;"></div>
                 <div style="font-size: 13px;">Kimi (Tokyo)</div>
+                <div class="online-dot"></div>
             </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">Live Regions</div>
+            <div class="sidebar-item">🌍 Europe</div>
+            <div class="sidebar-item">🏙️ North America</div>
+            <div class="sidebar-item">⛩️ Asia</div>
         </div>
     </div>
 
@@ -149,19 +159,42 @@
         </div>
 
         <div class="grid-section">
-            <h2 style="font-size: 20px; margin-bottom: 20px;">Popular Destinations</h2>
+            <div class="grid-title">Popular Destinations</div>
             <div class="category-grid">
                 <div class="card">
                     <img class="card-img" src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=300&q=80">
-                    <div class="card-info"><p class="card-name">Tokyo Nights</p></div>
+                    <div class="card-info">
+                        <p class="card-name">Tokyo Nights</p>
+                        <p class="card-stat">👤 12.4K Active</p>
+                    </div>
                 </div>
                 <div class="card">
                     <img class="card-img" src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=300&q=80">
-                    <div class="card-info"><p class="card-name">Paris Sunrise</p></div>
+                    <div class="card-info">
+                        <p class="card-name">Paris Sunrise</p>
+                        <p class="card-stat">👤 8.1K Active</p>
+                    </div>
                 </div>
                 <div class="card">
                     <img class="card-img" src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=300&q=80">
-                    <div class="card-info"><p class="card-name">Chicago Loop</p></div>
+                    <div class="card-info">
+                        <p class="card-name">Chicago Loop</p>
+                        <p class="card-stat">👤 5.2K Active</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img class="card-img" src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=300&q=80">
+                    <div class="card-info">
+                        <p class="card-name">SF Golden Gate</p>
+                        <p class="card-stat">👤 3.9K Active</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-img" style="background: linear-gradient(45deg, #111, #333);"></div>
+                    <div class="card-info">
+                        <p class="card-name">London Rain</p>
+                        <p class="card-stat">👤 2.1K Active</p>
+                    </div>
                 </div>
             </div>
         </div>
