@@ -3,177 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DTA Live - Travel Without Moving</title>
+    <title>DTA Explorer - Travel Without Moving</title>
     <style>
-        /* Base Styling - Uber Minimalist */
-        body { font-family: 'Inter', sans-serif; background: #ffffff; margin: 0; color: #000; }
-        
-        /* 1. GREEN PROMO BAR */
-        .top-promo-bar {
-            background-color: #e6f4ea;
-            padding: 10px 20px;
-            display: flex;
-            justify-content: center;
-            font-size: 13px;
-            border-bottom: 1px solid #d1e7dd;
+        /* Core Dark Theme - Dominated by Black */
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #000000; 
+            color: #ffffff; 
+            margin: 0; 
+            overflow-x: hidden;
         }
-        .promo-content { max-width: 1400px; width: 100%; display: flex; justify-content: space-between; align-items: center; }
 
-        /* 2. SIDEBAR - Kick Style but Uber Clean */
+        /* 1. TOP NAV - Uber style but Dark */
+        .header {
+            background: #000;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo { font-weight: 800; font-size: 20px; letter-spacing: -1px; }
+        .search-bar {
+            background: #1a1a1a;
+            border: 1px solid #333;
+            padding: 8px 15px;
+            border-radius: 8px;
+            width: 400px;
+            color: white;
+            outline: none;
+        }
+
+        /* 2. SIDEBAR - Kick Influenced but Minimal */
         .sidebar {
-            width: 240px;
+            width: 260px;
             height: 100vh;
             position: fixed;
             left: 0;
-            top: 45px;
-            background: #fcfcfc;
-            border-right: 1px solid #eee;
+            background: #000;
+            border-right: 1px solid #111;
             padding: 20px 10px;
-            overflow-y: auto;
         }
-        .sidebar-title { font-size: 12px; font-weight: 700; color: #888; text-transform: uppercase; padding-left: 10px; margin-bottom: 15px; }
+        .sidebar-section { margin-bottom: 30px; }
+        .sidebar-label { color: #555; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 15px; padding-left: 10px; }
         .sidebar-item { display: flex; align-items: center; padding: 10px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
-        .sidebar-item:hover { background: #f0f0f0; }
-        .avatar-small { width: 32px; height: 32px; border-radius: 50%; background: #000; margin-right: 12px; }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; background: #00ff00; margin-left: auto; }
+        .sidebar-item:hover { background: #111; }
+        .avatar { width: 30px; height: 30px; border-radius: 50%; background: #333; margin-right: 12px; }
+        .online-dot { width: 8px; height: 8px; border-radius: 50%; background: #00E701; margin-left: auto; }
 
-        /* 3. MAIN CONTENT AREA */
-        .main-view { margin-left: 240px; padding: 40px; max-width: 1200px; }
+        /* 3. MAIN CONTENT - Roblox Influenced Grid */
+        .main-content { margin-left: 260px; padding: 40px; }
 
-        /* HERO SECTION - The Animated Gradient Area */
-        .featured-hero {
-            width: 100%;
-            height: 350px;
-            border-radius: 16px;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            padding: 40px;
-            color: white;
-            position: relative;
-            background: linear-gradient(-45deg, #FF1B6B, #45CAFF, #6A5ACD);
-            background-size: 400% 400%;
-            animation: moveGradient 12s ease infinite;
-        }
-        .hero-text h1 { font-size: 48px; margin: 0; letter-spacing: -2px; }
-        .hero-text p { font-size: 18px; opacity: 0.9; }
-
-        /* 4. TRAVEL CATEGORIES GRID */
-        .grid-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .category-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; }
-        
-        .card { cursor: pointer; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-5px); }
-        .card-image { 
-            aspect-ratio: 3/4; 
-            background: #eee; 
-            border-radius: 12px; 
-            margin-bottom: 10px; 
+        /* FEATURED CATEGORY - Animated Gradient Accent */
+        .featured-banner {
+            height: 300px;
+            border-radius: 12px;
+            margin-bottom: 50px;
             position: relative;
             overflow: hidden;
-            border: 1px solid #eee;
+            display: flex;
+            align-items: flex-end;
+            padding: 40px;
+            /* Using Neon Pink and Sky Aqua as the moving highlight */
+            background: linear-gradient(-45deg, #000, #FF1B6B, #45CAFF, #000);
+            background-size: 400% 400%;
+            animation: flow 15s ease infinite;
         }
-        /* Gradient Overlay for Card Images */
-        .card-image::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
-        }
-        .tag { position: absolute; top: 10px; left: 10px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; z-index: 1; }
-        
-        .card-title { font-weight: 700; font-size: 16px; margin: 0; }
-        .card-meta { font-size: 13px; color: #666; margin-top: 4px; }
-
-        @keyframes moveGradient {
+        @keyframes flow {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
+
+        .banner-content h1 { font-size: 48px; margin: 0; font-weight: 900; letter-spacing: -2px; }
+
+        /* GAME/CATEGORY GRID */
+        .grid-section { margin-bottom: 40px; }
+        .grid-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 20px;
+        }
+
+        /* Category Card - Tilted Roblox Style */
+        .card {
+            background: #111;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #1a1a1a;
+        }
+        .card:hover {
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 0 10px 30px rgba(69, 202, 255, 0.2);
+            border-color: #45CAFF;
+        }
+        .card-img { aspect-ratio: 1/1; background: #222; width: 100%; object-fit: cover; }
+        .card-info { padding: 12px; }
+        .card-name { font-weight: 700; font-size: 14px; margin: 0; }
+        .card-stat { font-size: 11px; color: #666; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+
     </style>
 </head>
 <body>
 
-    <div class="top-promo-bar">
-        <div class="promo-content">
-            <span><b>DTA Live</b> • 152 Guides currently broadcasting live.</span>
-            <span style="font-weight: 700; text-decoration: underline; cursor: pointer;">Join as a Guide</span>
-        </div>
-    </div>
+    <header class="header">
+        <div class="logo">DTA EXPLORE</div>
+        <input type="text" class="search-bar" placeholder="Search cities, guides, or landmarks...">
+        <div style="font-weight: 600;">Log In</div>
+    </header>
 
     <div class="sidebar">
-        <div class="sidebar-title">Recommended Guides</div>
-        <div class="sidebar-item">
-            <div class="avatar-small"></div>
-            <div>
-                <div style="font-weight: 700; font-size: 13px;">Max_Paris</div>
-                <div style="font-size: 11px; color: #666;">Walking Tour</div>
+        <div class="sidebar-section">
+            <div class="sidebar-label">Recommended Guides</div>
+            <div class="sidebar-item">
+                <div class="avatar" style="background: #FF1B6B;"></div>
+                <div style="font-size: 13px;">Max (Paris)</div>
+                <div class="online-dot"></div>
             </div>
-            <div class="status-dot"></div>
+            <div class="sidebar-item">
+                <div class="avatar" style="background: #45CAFF;"></div>
+                <div style="font-size: 13px;">Kimi (Tokyo)</div>
+                <div class="online-dot"></div>
+            </div>
         </div>
-        <div class="sidebar-item">
-            <div class="avatar-small" style="background: #FF1B6B;"></div>
-            <div>
-                <div style="font-weight: 700; font-size: 13px;">Kimi_Tokyo</div>
-                <div style="font-size: 11px; color: #666;">Night Markets</div>
-            </div>
-            <div class="status-dot"></div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">Live Regions</div>
+            <div class="sidebar-item">🌍 Europe</div>
+            <div class="sidebar-item">🏙️ North America</div>
+            <div class="sidebar-item">⛩️ Asia</div>
         </div>
     </div>
 
-    <div class="main-view">
-        <div class="featured-hero">
-            <div class="hero-text">
-                <h1>Live the World.</h1>
-                <p>Join live immersive walks from 200+ cities.</p>
-                <button style="background: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer;">Explore Now</button>
+    <div class="main-content">
+        <div class="featured-banner">
+            <div class="banner-content">
+                <h1>Live Streams.</h1>
+                <p>Real-time walks through your favorite cities.</p>
             </div>
         </div>
 
-        <div class="grid-header">
-            <h2 style="font-size: 24px; letter-spacing: -1px;">Top Live Categories</h2>
-            <span style="font-weight: 600; color: #666; cursor: pointer;">View all</span>
-        </div>
-
-        <div class="category-grid">
-            <div class="card">
-                <div class="card-image" style="background: #f8f8f8 url('https://images.unsplash.com/photo-1543349689-9a4d426bee8e?auto=format&fit=crop&w=300&q=80') center/cover;">
-                    <span class="tag">HISTORICAL</span>
+        <div class="grid-section">
+            <div class="grid-title">Popular Destinations</div>
+            <div class="category-grid">
+                <div class="card">
+                    <img class="card-img" src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=300&q=80">
+                    <div class="card-info">
+                        <p class="card-name">Tokyo Nights</p>
+                        <p class="card-stat">👤 12.4K Active</p>
+                    </div>
                 </div>
-                <p class="card-title">Classic Architecture</p>
-                <p class="card-meta">2.4k watching</p>
-            </div>
-
-            <div class="card">
-                <div class="card-image" style="background: #f8f8f8 url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=300&q=80') center/cover;">
-                    <span class="tag">FOODIE</span>
+                <div class="card">
+                    <img class="card-img" src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=300&q=80">
+                    <div class="card-info">
+                        <p class="card-name">Paris Sunrise</p>
+                        <p class="card-stat">👤 8.1K Active</p>
+                    </div>
                 </div>
-                <p class="card-title">Street Food Tours</p>
-                <p class="card-meta">5.1k watching</p>
-            </div>
-
-            <div class="card">
-                <div class="card-image" style="background: #f8f8f8 url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=300&q=80') center/cover;">
-                    <span class="tag">NATURE</span>
+                <div class="card">
+                    <img class="card-img" src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=300&q=80">
+                    <div class="card-info">
+                        <p class="card-name">Chicago Loop</p>
+                        <p class="card-stat">👤 5.2K Active</p>
+                    </div>
                 </div>
-                <p class="card-title">National Parks</p>
-                <p class="card-meta">1.2k watching</p>
-            </div>
-
-            <div class="card">
-                <div class="card-image" style="background: #f8f8f8 url('https://images.unsplash.com/photo-1514525253361-bee8718a300a?auto=format&fit=crop&w=300&q=80') center/cover;">
-                    <span class="tag">NIGHTLIFE</span>
+                <div class="card">
+                    <img class="card-img" src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=300&q=80">
+                    <div class="card-info">
+                        <p class="card-name">SF Golden Gate</p>
+                        <p class="card-stat">👤 3.9K Active</p>
+                    </div>
                 </div>
-                <p class="card-title">City Lights & Clubs</p>
-                <p class="card-meta">8.3k watching</p>
-            </div>
-
-            <div class="card">
-                <div class="card-image" style="background: #f8f8f8 url('https://images.unsplash.com/photo-1518998053901-5348d3961a04?auto=format&fit=crop&w=300&q=80') center/cover;">
-                    <span class="tag">CULTURE</span>
+                <div class="card">
+                    <div class="card-img" style="background: linear-gradient(45deg, #111, #333);"></div>
+                    <div class="card-info">
+                        <p class="card-name">London Rain</p>
+                        <p class="card-stat">👤 2.1K Active</p>
+                    </div>
                 </div>
-                <p class="card-title">Museum Walks</p>
-                <p class="card-meta">750 watching</p>
             </div>
         </div>
     </div>
