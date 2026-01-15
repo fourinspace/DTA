@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DTA Explorer - Travel Without Moving</title>
+    <title>DTA (Digital Travel Agency) - Travel Without Moving</title>
     <style>
         /* Core Dark Theme - Dominated by Black */
         body { 
@@ -14,11 +14,13 @@
             overflow-x: hidden;
         }
 
-        /* 1. TOP NAV */
+        /* 1. TOP NAV - Updated with Active Gradient Background */
         .header {
+            /* Applied your Pink and Aqua colors to the full header background */
             background: linear-gradient(-45deg, #FF1B6B, #45CAFF, #222, #FF1B6B);
             background-size: 400% 400%;
             animation: flow 12s ease infinite;
+
             padding: 15px 30px;
             display: flex;
             justify-content: space-between;
@@ -32,6 +34,7 @@
         .logo { font-weight: 800; font-size: 20px; letter-spacing: -1px; color: #fff; }
         
         .search-bar {
+            /* Adjusted for better visibility on a moving background */
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -41,8 +44,9 @@
             color: white;
             outline: none;
         }
+        .search-bar::placeholder { color: rgba(255, 255, 255, 0.7); }
 
-        /* 2. SIDEBAR */
+        /* 2. SIDEBAR - Kick Influenced but Minimal */
         .sidebar {
             width: 260px;
             height: 100vh;
@@ -57,47 +61,48 @@
         .sidebar-item { display: flex; align-items: center; padding: 10px; border-radius: 8px; cursor: pointer; transition: 0.2s; }
         .sidebar-item:hover { background: #111; }
         .avatar { width: 30px; height: 30px; border-radius: 50%; background: #333; margin-right: 12px; }
+        .online-dot { width: 8px; height: 8px; border-radius: 50%; background: #00E701; margin-left: auto; }
 
-        /* 3. MAIN CONTENT */
+        /* 3. MAIN CONTENT - Roblox Influenced Grid */
         .main-content { margin-left: 260px; padding: 40px; }
 
-        /* INFINITE 3D CAROUSEL STYLES */
+        /* 3D INFINITE CAROUSEL STYLES */
         .carousel-stage {
             width: 100%;
-            height: 450px;
+            height: 480px;
             position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
-            perspective: 1000px;
-            margin-bottom: 60px;
+            perspective: 1200px;
+            margin-bottom: 50px;
             overflow: hidden;
         }
 
         .carousel-track {
             position: relative;
-            width: 300px; /* Width of the central active card */
-            height: 100%;
+            width: 350px;
+            height: 400px;
             transform-style: preserve-3d;
-            transition: transform 0.5s ease;
         }
 
         .carousel-slide {
             position: absolute;
             width: 100%;
-            height: 400px;
+            height: 100%;
             border-radius: 20px; /* Rounded corners */
             background-size: cover;
             background-position: center;
-            transition: all 0.5s ease;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
             display: flex;
             align-items: flex-end;
-            padding: 20px;
+            padding: 30px;
             box-sizing: border-box;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.6);
+            cursor: pointer;
         }
 
-        /* Nav Arrows - Circle Style */
+        /* Navigation Arrows */
         .nav-btn {
             position: absolute;
             top: 50%;
@@ -113,30 +118,33 @@
             cursor: pointer;
             z-index: 100;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            transition: transform 0.2s;
         }
+        .nav-btn:hover { transform: translateY(-50%) scale(1.1); }
         .nav-btn svg { width: 24px; height: 24px; fill: #000; }
-        .nav-btn.prev { left: 5%; }
-        .nav-btn.next { right: 5%; }
+        .nav-btn.prev { left: 40px; }
+        .nav-btn.next { right: 40px; }
 
-        /* Card Positioning Logic */
-        .slide-prev-2 { transform: translateX(-250px) scale(0.7) translateZ(-200px); opacity: 0.3; z-index: 1; }
-        .slide-prev-1 { transform: translateX(-150px) scale(0.85) translateZ(-100px); opacity: 0.6; z-index: 2; }
+        /* 3D Positioning Logic */
+        .slide-prev-2 { transform: translateX(-320px) scale(0.65) translateZ(-300px) rotateY(15deg); opacity: 0.2; z-index: 1; }
+        .slide-prev-1 { transform: translateX(-200px) scale(0.85) translateZ(-150px) rotateY(10deg); opacity: 0.6; z-index: 5; }
         .slide-active { transform: translateX(0) scale(1.1) translateZ(0); opacity: 1; z-index: 10; }
-        .slide-next-1 { transform: translateX(150px) scale(0.85) translateZ(-100px); opacity: 0.6; z-index: 2; }
-        .slide-next-2 { transform: translateX(250px) scale(0.7) translateZ(-200px); opacity: 0.3; z-index: 1; }
-        .slide-hidden { transform: scale(0.5); opacity: 0; pointer-events: none; }
+        .slide-next-1 { transform: translateX(200px) scale(0.85) translateZ(-150px) rotateY(-10deg); opacity: 0.6; z-index: 5; }
+        .slide-next-2 { transform: translateX(320px) scale(0.65) translateZ(-300px) rotateY(-15deg); opacity: 0.2; z-index: 1; }
+        .slide-hidden { transform: scale(0.4) translateZ(-500px); opacity: 0; pointer-events: none; }
 
         .live-tag {
             background: #FF1B6B;
             color: white;
-            padding: 4px 10px;
+            padding: 4px 8px;
             border-radius: 4px;
             font-size: 11px;
             font-weight: 800;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            display: inline-block;
         }
 
-        .banner-content h2 { font-size: 24px; margin: 0; font-weight: 900; }
+        .banner-content h1 { font-size: 32px; margin: 0; font-weight: 900; letter-spacing: -1px; text-shadow: 0 4px 10px rgba(0,0,0,0.5); }
 
         @keyframes flow {
             0% { background-position: 0% 50%; }
@@ -144,106 +152,63 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* GRID STYLES */
+        /* GAME/CATEGORY GRID - Unchanged */
+        .grid-section { margin-bottom: 40px; }
+        .grid-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
         .category-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 20px;
         }
-        .card { background: #111; border-radius: 8px; overflow: hidden; border: 1px solid #1a1a1a; cursor: pointer; }
+        .card {
+            background: #111;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid #1a1a1a;
+        }
+        .card:hover { transform: scale(1.05) rotate(-1deg); border-color: #45CAFF; }
         .card-img { aspect-ratio: 1/1; background: #222; width: 100%; object-fit: cover; }
+        .card-info { padding: 12px; }
+        .card-name { font-weight: 700; font-size: 14px; margin: 0; }
+        .card-stat { font-size: 11px; color: #666; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+
     </style>
 </head>
 <body>
 
     <header class="header">
-        <div class="logo">DTA EXPLORE</div>
-        <input type="text" class="search-bar" placeholder="Search destinations...">
+        <div class="logo">DTA - Travel Without Moving</div>
+        <input type="text" class="search-bar" placeholder="Search cities, guides, or landmarks...">
         <div style="font-weight: 600; cursor: pointer;">Log In</div>
     </header>
 
     <div class="sidebar">
         <div class="sidebar-section">
-            <div class="sidebar-label">Recommended</div>
-            <div class="sidebar-item"><div class="avatar" style="background: #FF1B6B;"></div>Max (Paris)</div>
+            <div class="sidebar-label">Recommended Guides</div>
+            <div class="sidebar-item">
+                <div class="avatar" style="background: #FF1B6B;"></div>
+                <div style="font-size: 13px;">Max (Paris)</div>
+                <div class="online-dot"></div>
+            </div>
+            <div class="sidebar-item">
+                <div class="avatar" style="background: #45CAFF;"></div>
+                <div style="font-size: 13px;">Kimi (Tokyo)</div>
+                <div class="online-dot"></div>
+            </div>
+        </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">Live Regions</div>
+            <div class="sidebar-item">🌍 Europe</div>
+            <div class="sidebar-item">🏙️ North America</div>
+            <div class="sidebar-item">🌴 South America</div>
+            <div class="sidebar-item">⛩️ Asia</div>
+            <div class="sidebar-item">🦁 Africa</div>
         </div>
     </div>
 
     <div class="main-content">
         <div class="carousel-stage">
             <button class="nav-btn prev" id="prevBtn">
-                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-            </button>
-            <button class="nav-btn next" id="nextBtn">
-                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-            </button>
-
-            <div class="carousel-track" id="carouselTrack">
-                <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80');">
-                    <div class="banner-content"><span class="live-tag">LIVE</span><h2>Paris</h2></div>
-                </div>
-                <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1551698618-1fed5d97530d?auto=format&fit=crop&w=800&q=80');">
-                    <div class="banner-content"><span class="live-tag">LIVE</span><h2>Alps</h2></div>
-                </div>
-                <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=800&q=80');">
-                    <div class="banner-content"><span class="live-tag">LIVE</span><h2>Peak</h2></div>
-                </div>
-                <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=800&q=80');">
-                    <div class="banner-content"><span class="live-tag">LIVE</span><h2>Rio</h2></div>
-                </div>
-                <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=800&q=80');">
-                    <div class="banner-content"><span class="live-tag">LIVE</span><h2>Gardens</h2></div>
-                </div>
-            </div>
-        </div>
-
-        <div class="grid-section">
-            <div class="grid-title">Popular Destinations</div>
-            <div class="category-grid">
-                <div class="card">
-                    <img class="card-img" src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=300&q=80">
-                    <div style="padding:10px;">Tokyo Nights</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const slides = Array.from(document.querySelectorAll('.carousel-slide'));
-        let activeIndex = 0;
-
-        function updateCarousel() {
-            slides.forEach((slide, i) => {
-                slide.className = 'carousel-slide';
-                
-                // Logic for infinite wrap-around indexing
-                const diff = (i - activeIndex + slides.length) % slides.length;
-                
-                if (diff === 0) slide.classList.add('slide-active');
-                else if (diff === 1) slide.classList.add('slide-next-1');
-                else if (diff === 2) slide.classList.add('slide-next-2');
-                else if (diff === slides.length - 1) slide.classList.add('slide-prev-1');
-                else if (diff === slides.length - 2) slide.classList.add('slide-prev-2');
-                else slide.classList.add('slide-hidden');
-            });
-        }
-
-        document.getElementById('nextBtn').onclick = () => {
-            activeIndex = (activeIndex + 1) % slides.length;
-            updateCarousel();
-        };
-
-        document.getElementById('prevBtn').onclick = () => {
-            activeIndex = (activeIndex - 1 + slides.length) % slides.length;
-            updateCarousel();
-        };
-
-        // Initialize and Start Auto-play
-        updateCarousel();
-        setInterval(() => {
-            activeIndex = (activeIndex + 1) % slides.length;
-            updateCarousel();
-        }, 5000);
-    </script>
-</body>
-</html>
