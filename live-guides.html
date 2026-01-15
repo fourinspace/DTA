@@ -16,9 +16,11 @@
 
         /* 1. TOP NAV - Updated with Active Gradient Background */
         .header {
+            /* Applied your Pink and Aqua colors to the full header background */
             background: linear-gradient(-45deg, #FF1B6B, #45CAFF, #222, #FF1B6B);
             background-size: 400% 400%;
             animation: flow 12s ease infinite;
+
             padding: 15px 30px;
             display: flex;
             justify-content: space-between;
@@ -32,6 +34,7 @@
         .logo { font-weight: 800; font-size: 20px; letter-spacing: -1px; color: #fff; }
         
         .search-bar {
+            /* Adjusted for better visibility on a moving background */
             background: rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.2);
@@ -60,10 +63,10 @@
         .avatar { width: 30px; height: 30px; border-radius: 50%; background: #333; margin-right: 12px; }
         .online-dot { width: 8px; height: 8px; border-radius: 50%; background: #00E701; margin-left: auto; }
 
-        /* 3. MAIN CONTENT */
+        /* 3. MAIN CONTENT - Roblox Influenced Grid */
         .main-content { margin-left: 260px; padding: 40px; }
 
-        /* CAROUSEL STYLES - Updated with Nav Buttons */
+        /* Carousel Specific Styles */
         .carousel-container {
             width: 100%;
             margin-bottom: 50px;
@@ -76,11 +79,11 @@
             scroll-snap-type: x mandatory;
             scroll-behavior: smooth;
             border-radius: 16px;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
+            -ms-overflow-style: none; /* Hide scrollbar IE/Edge */
+            scrollbar-width: none; /* Hide scrollbar Firefox */
         }
 
-        .carousel-track::-webkit-scrollbar { display: none; }
+        .carousel-track::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome/Safari */
 
         .carousel-slide {
             min-width: 100%;
@@ -94,7 +97,7 @@
             box-sizing: border-box;
         }
 
-        /* Nav Buttons - Circle and Arrow */
+        /* Navigation Arrows */
         .nav-btn {
             position: absolute;
             top: 50%;
@@ -115,7 +118,7 @@
         .nav-btn:hover { transform: translateY(-50%) scale(1.1); }
         .nav-btn.prev { left: 20px; }
         .nav-btn.next { right: 20px; }
-        .nav-btn svg { width: 20px; height: 20px; fill: #000; }
+        .nav-btn svg { width: 24px; height: 24px; fill: #000; }
 
         .live-tag {
             background: #FF1B6B;
@@ -128,7 +131,19 @@
             display: inline-block;
         }
 
-        .banner-content h1 { font-size: 48px; margin: 0; font-weight: 900; letter-spacing: -2px; }
+        .carousel-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding: 0 10px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .nav-dots { display: flex; gap: 8px; }
+        .dot { width: 6px; height: 6px; background: #333; border-radius: 50%; opacity: 0.5; }
+        .dot.active { background: #45CAFF; opacity: 1; transform: scale(1.2); }
 
         @keyframes flow {
             0% { background-position: 0% 50%; }
@@ -136,7 +151,9 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* GRID STYLES */
+        .banner-content h1 { font-size: 48px; margin: 0; font-weight: 900; letter-spacing: -2px; }
+
+        /* GAME/CATEGORY GRID */
         .grid-section { margin-bottom: 40px; }
         .grid-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
         .category-grid {
@@ -144,19 +161,26 @@
             grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
             gap: 20px;
         }
+
+        /* Category Card - Tilted Roblox Style */
         .card {
             background: #111;
             border-radius: 8px;
             overflow: hidden;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             border: 1px solid #1a1a1a;
         }
-        .card:hover { transform: scale(1.05) rotate(-1deg); border-color: #45CAFF; }
+        .card:hover {
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 0 10px 30px rgba(69, 202, 255, 0.2);
+            border-color: #45CAFF;
+        }
         .card-img { aspect-ratio: 1/1; background: #222; width: 100%; object-fit: cover; }
         .card-info { padding: 12px; }
         .card-name { font-weight: 700; font-size: 14px; margin: 0; }
-        .card-stat { font-size: 11px; color: #666; margin-top: 4px; }
+        .card-stat { font-size: 11px; color: #666; margin-top: 4px; display: flex; align-items: center; gap: 4px; }
+
     </style>
 </head>
 <body>
@@ -181,6 +205,13 @@
                 <div class="online-dot"></div>
             </div>
         </div>
+
+        <div class="sidebar-section">
+            <div class="sidebar-label">Live Regions</div>
+            <div class="sidebar-item">🌍 Europe</div>
+            <div class="sidebar-item">🏙️ North America</div>
+            <div class="sidebar-item">⛩️ Asia</div>
+        </div>
     </div>
 
     <div class="main-content">
@@ -200,6 +231,7 @@
                         <p>Walking through the heart of Le Marais.</p>
                     </div>
                 </div>
+
                 <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1551698618-1fed5d97530d?auto=format&fit=crop&w=1200&q=80');">
                     <div class="banner-content">
                         <span class="live-tag">LIVE NOW</span>
@@ -207,6 +239,7 @@
                         <p>First tracks on the Swiss Matterhorn.</p>
                     </div>
                 </div>
+
                 <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=80');">
                     <div class="banner-content">
                         <span class="live-tag">LIVE NOW</span>
@@ -214,6 +247,7 @@
                         <p>Reaching the summit of the Dolomites.</p>
                     </div>
                 </div>
+
                 <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1483729558449-99ef09a8c325?auto=format&fit=crop&w=1200&q=80');">
                     <div class="banner-content">
                         <span class="live-tag">LIVE NOW</span>
@@ -221,12 +255,24 @@
                         <p>Sunset walk on Rio's most famous beach.</p>
                     </div>
                 </div>
+
                 <div class="carousel-slide" style="background-image: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1523906834658-6e24ef2386f9?auto=format&fit=crop&w=1200&q=80');">
                     <div class="banner-content">
                         <span class="live-tag">LIVE NOW</span>
                         <h1>Garden City</h1>
                         <p>Exploring the Supertree Grove at night.</p>
                     </div>
+                </div>
+            </div>
+            
+            <div class="carousel-nav">
+                <span>Scroll to explore</span>
+                <div class="nav-dots">
+                    <div class="dot active"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
                 </div>
             </div>
         </div>
@@ -236,7 +282,38 @@
             <div class="category-grid">
                 <div class="card">
                     <img class="card-img" src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=300&q=80">
-                    <div class="card-info"><p class="card-name">Tokyo Nights</p></div>
+                    <div class="card-info">
+                        <p class="card-name">Tokyo Nights</p>
+                        <p class="card-stat">👤 12.4K Active</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img class="card-img" src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=300&q=80">
+                    <div class="card-info">
+                        <p class="card-name">Paris Sunrise</p>
+                        <p class="card-stat">👤 8.1K Active</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img class="card-img" src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=300&q=80">
+                    <div class="card-info">
+                        <p class="card-name">Chicago Loop</p>
+                        <p class="card-stat">👤 5.2K Active</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img class="card-img" src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=300&q=80">
+                    <div class="card-info">
+                        <p class="card-name">SF Golden Gate</p>
+                        <p class="card-stat">👤 3.9K Active</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-img" style="background: linear-gradient(45deg, #111, #333);"></div>
+                    <div class="card-info">
+                        <p class="card-name">London Rain</p>
+                        <p class="card-stat">👤 2.1K Active</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -244,24 +321,35 @@
 
     <script>
         const track = document.getElementById('carouselTrack');
+        const dots = document.querySelectorAll('.dot');
         const nextBtn = document.getElementById('nextBtn');
         const prevBtn = document.getElementById('prevBtn');
 
-        // Function to move to next/prev slide
+        function updateDots() {
+            const index = Math.round(track.scrollLeft / track.offsetWidth);
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+        }
+
         function moveCarousel(offset) {
             const slideWidth = track.offsetWidth;
-            track.scrollLeft += (slideWidth * offset);
+            const targetScroll = track.scrollLeft + (slideWidth * offset);
             
-            // Loop back to start if at end
-            if (track.scrollLeft + track.offsetWidth >= track.scrollWidth && offset > 0) {
+            if (targetScroll >= track.scrollWidth) {
                 track.scrollTo({ left: 0, behavior: 'smooth' });
+            } else if (targetScroll < 0) {
+                track.scrollTo({ left: track.scrollWidth - slideWidth, behavior: 'smooth' });
+            } else {
+                track.scrollBy({ left: slideWidth * offset, behavior: 'smooth' });
             }
         }
 
         nextBtn.addEventListener('click', () => moveCarousel(1));
         prevBtn.addEventListener('click', () => moveCarousel(-1));
+        track.addEventListener('scroll', updateDots);
 
-        // Active auto-play feature every 5 seconds
+        // Active auto-play
         setInterval(() => moveCarousel(1), 5000);
     </script>
 </body>
