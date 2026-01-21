@@ -5,29 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DTA Explorer - Travel Without Moving</title>
     <style>
-        /* Core Dark Theme */
         body { 
             font-family: 'Inter', sans-serif; 
             background-color: #000000; 
             color: #ffffff; 
             margin: 0; 
             height: 100vh;
-            overflow: hidden; /* Prevent whole page scroll */
+            overflow: hidden; 
         }
 
-        /* 1. TOP NAV - Fixed Animated Gradient */
+        /* Animated Header */
         .header {
             background: linear-gradient(-45deg, #FF1B6B, #45CAFF, #222, #FF1B6B);
             background-size: 400% 400%;
             animation: flow 12s ease infinite;
-            padding: 12px 30px;
+            padding: 10px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: fixed;
             top: 0; left: 0; right: 0;
             z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
         
         @keyframes flow {
@@ -36,265 +34,169 @@
             100% { background-position: 0% 50%; }
         }
 
-        .logo-img { height: 35px; }
         .search-bar {
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 8px 15px;
             border-radius: 8px;
             width: 400px;
             color: white;
-            outline: none;
         }
 
-        /* 2. SIDEBAR - Fixed */
+        /* Sidebar */
         .sidebar {
             width: 240px;
             height: 100vh;
             position: fixed;
-            left: 0; top: 60px;
+            left: 0; top: 55px;
             background: #000;
             padding: 20px;
             border-right: 1px solid #111;
             z-index: 900;
         }
-        .sidebar-label { color: #555; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 15px; }
-        .sidebar-item { display: flex; align-items: center; padding: 10px 0; cursor: pointer; font-size: 14px; }
+        .sidebar-item { display: flex; align-items: center; padding: 10px 0; font-size: 14px; cursor: pointer; }
         .avatar { width: 24px; height: 24px; border-radius: 50%; margin-right: 12px; }
-        .online-dot { width: 8px; height: 8px; border-radius: 50%; background: #00E701; margin-left: auto; }
 
-        /* 3. LAYOUT STRUCTURE */
-        .main-container {
+        /* Main Viewport */
+        .viewport {
             margin-left: 240px;
-            padding-top: 60px; /* Header space */
-            height: 100vh;
+            padding-top: 55px;
+            height: calc(100vh - 55px);
             display: flex;
             flex-direction: column;
-        }
-
-        /* Hero Area - Fixed at the top of content */
-        .hero-section {
-            flex: 0 0 auto;
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            padding: 30px 40px 10px 40px;
-            background: #000;
-        }
-
-        .hero-main-card {
-            background-size: cover;
-            background-position: center;
-            border-radius: 20px;
-            height: 380px;
-            padding: 40px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
             position: relative;
-            transition: background-image 0.5s ease;
-            overflow: hidden;
-            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
         }
 
-        .hero-overlay {
+        /* IMMERSIVE HERO - Fixed Background */
+        .hero-bg {
             position: absolute;
-            bottom: 40px;
-            left: 40px;
-            z-index: 2;
-        }
-
-        .hero-tag {
-            background: #FF1B6B;
-            padding: 6px 14px;
-            border-radius: 6px;
-            font-weight: 800;
-            font-size: 20px;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-
-        .promo-card {
-            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1551698618-1fed5d97530d?auto=format&fit=crop&w=600&q=80');
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: url('https://images.unsplash.com/photo-1544013919-450191307b89?w=1600');
             background-size: cover;
             background-position: center;
-            border-radius: 20px;
-            height: 380px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 30px;
+            z-index: 1;
+            transition: background-image 0.6s ease-in-out;
+        }
+        .hero-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.9) 20%, transparent 60%),
+                        linear-gradient(to top, rgba(0,0,0,1) 10%, transparent 50%);
         }
 
-        /* Scrollable Area */
-        .scroll-content {
-            flex: 1;
+        /* SCROLLABLE OVERLAY */
+        .scroll-layer {
+            position: relative;
+            z-index: 2;
+            height: 100%;
             overflow-y: auto;
-            padding: 10px 40px 40px 40px;
-            scrollbar-width: thin;
-            scrollbar-color: #333 #000;
+            padding: 40px;
         }
 
-        /* 4. FILTERS */
-        .filter-row { display: flex; gap: 12px; margin: 20px 0; position: sticky; top: 0; background: #000; z-index: 10; padding: 10px 0; }
-        .filter-tag {
-            background: #1A1A1A;
-            padding: 10px 22px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 700;
-            cursor: pointer;
-            color: #fff;
+        .hero-content { margin-bottom: 60px; max-width: 600px; }
+        .hero-tag { 
+            background: #FF1B6B; 
+            padding: 8px 15px; 
+            border-radius: 8px; 
+            font-weight: 900; 
+            font-size: 24px; 
+            display: inline-block;
         }
-        .filter-tag.active { background: #45CAFF; color: #000; }
 
-        /* 5. DESTINATION GRIDS */
-        .dual-grid-container { display: flex; gap: 40px; margin-top: 20px; }
-        .grid-section { flex: 1; min-width: 0; }
-        .grid-section-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: #45CAFF; }
-        
-        .scalable-row {
-            display: flex;
-            gap: 15px;
-            overflow-x: auto;
-            padding-bottom: 15px;
+        /* Filter Pills */
+        .filter-row { display: flex; gap: 10px; margin-bottom: 40px; }
+        .pill { 
+            background: rgba(255,255,255,0.1); 
+            padding: 10px 20px; 
+            border-radius: 12px; 
+            font-weight: 700; 
+            font-size: 13px;
+        }
+        .pill.active { background: #45CAFF; color: #000; }
+
+        /* Destination Grids */
+        .section-title { font-size: 18px; font-weight: 800; color: #45CAFF; margin-bottom: 20px; }
+        .card-row { 
+            display: flex; 
+            gap: 15px; 
+            overflow-x: auto; 
+            padding-bottom: 30px;
             scrollbar-width: none;
         }
         
-        .dest-card { 
-            flex: 0 0 160px;
-            border-radius: 12px; 
-            overflow: hidden; 
-            transition: transform 0.3s ease;
-            cursor: pointer;
+        .card { 
+            flex: 0 0 180px; 
+            cursor: pointer; 
+            transition: transform 0.3s;
         }
-        .dest-card:hover { transform: scale(1.05); }
-        .dest-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 12px; }
-        .dest-name { font-weight: 700; font-size: 14px; margin: 12px 0 4px 0; }
-        .dest-stat { font-size: 11px; color: #666; }
-
-        .see-all-card {
-            flex: 0 0 100px;
-            background: #111;
-            border-radius: 12px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
+        .card:hover { transform: translateY(-10px); }
+        .card-img { width: 100%; aspect-ratio: 2/3; border-radius: 12px; object-fit: cover; }
+        .card-name { font-weight: 700; font-size: 14px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
     <header class="header">
-        <div class="logo">DTA EXPLORE</div>
+        <div class="logo"><img src="https://fourinspace.github.io/DTA/logo.png" height="30"></div>
         <input type="text" class="search-bar" placeholder="Search cities, guides, or landmarks...">
-        <div style="font-weight: 600; cursor: pointer;">Log In</div>
+        <div style="font-weight: 700;">Log In</div>
     </header>
 
     <div class="sidebar">
-        <div class="sidebar-label">Recommended Guides</div>
-        <div class="sidebar-item"><div class="avatar" style="background: #FF1B6B;"></div> Max (Paris) <div class="online-dot"></div></div>
-        <div class="sidebar-item"><div class="avatar" style="background: #45CAFF;"></div> Kimi (Tokyo) <div class="online-dot"></div></div>
-        <div class="sidebar-label" style="margin-top: 40px;">Live Regions</div>
-        <div class="sidebar-item">🌍 Europe</div>
-        <div class="sidebar-item">🏙️ North America</div>
-        <div class="sidebar-item">⛩️ Asia</div>
+        <div class="sidebar-item"><div class="avatar" style="background:#FF1B6B"></div> Max (Paris)</div>
+        <div class="sidebar-item"><div class="avatar" style="background:#45CAFF"></div> Kimi (Tokyo)</div>
     </div>
 
-    <div class="main-container">
-        <div class="hero-section">
-            <div class="hero-main-card" id="heroCard" style="background-image: url('https://images.unsplash.com/photo-1544013919-450191307b89?auto=format&fit=crop&w=1200&q=80');">
-                <span style="font-weight: 800; font-size: 18px;">Unique locations</span>
-                <div class="hero-overlay">
-                    <span class="hero-tag" id="heroLocationTag">Sigiriya: 'Lion Rock'</span>
-                    <p id="heroLocationDesc" style="margin-top: 8px; font-weight: 500; font-size: 18px;">Ancient Rock Fortress, Sri Lanka</p>
+    <div class="viewport">
+        <div class="hero-bg" id="heroBg"></div>
+        
+        <div class="scroll-layer">
+            <div class="hero-content">
+                <p style="font-weight: 800;">Sri Lanka</p>
+                <div class="hero-tag" id="heroTitle">Sigiriya: 'Lion Rock'</div>
+                <p style="font-size: 18px; opacity: 0.8;">Ancient Rock Fortress</p>
+                
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button style="background:#45CAFF; border:none; padding:12px 30px; border-radius:10px; font-weight:800;">Guides</button>
+                    <button style="background:#fff; border:none; padding:12px 30px; border-radius:10px; font-weight:800;">Book</button>
                 </div>
             </div>
-            <div class="promo-card">
-                <h2 style="font-weight: 900; font-size: 26px; margin-bottom: 10px;">Treasure Hunt</h2>
-                <p style="font-size: 14px; margin-bottom: 20px;">Enter Daily Adventures And Win Actual Trips To Your Dream Location!</p>
-                <span style="font-weight: 800; color: #45CAFF; font-size: 18px;">Booking.com</span>
-            </div>
-        </div>
 
-        <div class="scroll-content">
             <div class="filter-row">
-                <div class="filter-tag">Micro-Trips</div>
-                <div class="filter-tag">Macro-Journeys</div>
-                <div class="filter-tag">Ride-Along</div>
-                <div class="filter-tag active">LOTTERY</div>
-                <div class="filter-tag">Snow-Adventure</div>
+                <div class="pill">Micro-Trips</div>
+                <div class="pill">Macro-Journeys</div>
+                <div class="pill active">LOTTERY</div>
+                <div class="pill">Snow-Adventure</div>
             </div>
 
-            <div class="dual-grid-container">
-                <div class="grid-section">
-                    <div class="grid-section-title">Recent Destinations</div>
-                    <div class="scalable-row">
-                        <div class="dest-card" onclick="updateHero('Tokyo Nights', 'Exploring Shibuya at Midnight', 'https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=800')">
-                            <img src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=400" class="dest-img">
-                            <p class="dest-name">Tokyo Nights</p>
-                            <p class="dest-stat">👤 12.4K Active</p>
-                        </div>
-                        <div class="dest-card" onclick="updateHero('Paris Sunrise', 'Morning light over the Eiffel Tower', 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=800')">
-                            <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400" class="dest-img">
-                            <p class="dest-name">Paris Sunrise</p>
-                            <p class="dest-stat">👤 8.1K Active</p>
-                        </div>
-                        <div class="see-all-card">
-                            <span style="font-weight: 700; font-size: 20px;">→</span>
-                        </div>
-                    </div>
+            <div class="section-title">Recent Destinations</div>
+            <div class="card-row">
+                <div class="card" onclick="changeHero('https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=1600', 'Tokyo Nights')">
+                    <img src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=400" class="card-img">
+                    <div class="card-name">Tokyo Nights</div>
                 </div>
-
-                <div class="grid-section">
-                    <div class="grid-section-title">Popular Destinations</div>
-                    <div class="scalable-row">
-                        <div class="dest-card" onclick="updateHero('Chicago Loop', 'Architecture and city lights', 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=800')">
-                            <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400" class="dest-img">
-                            <p class="dest-name">Chicago Loop</p>
-                            <p class="dest-stat">👤 5.2K Active</p>
-                        </div>
-                        <div class="dest-card" onclick="updateHero('SF Golden Gate', 'The bridge through the fog', 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=800')">
-                            <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=400" class="dest-img">
-                            <p class="dest-name">SF Golden Gate</p>
-                            <p class="dest-stat">👤 3.9K Active</p>
-                        </div>
-                        <div class="see-all-card">
-                            <span style="font-weight: 700; font-size: 20px;">→</span>
-                        </div>
-                    </div>
+                <div class="card" onclick="changeHero('https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1600', 'Paris Sunrise')">
+                    <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400" class="card-img">
+                    <div class="card-name">Paris Sunrise</div>
                 </div>
             </div>
-            
-            <div style="height: 300px; margin-top: 40px; border-radius: 20px; background: #111; display: flex; align-items: center; justify-content: center;">
-                <p style="color: #444; font-weight: 700;">Live Event Stream Placeholder</p>
+
+            <div class="section-title">Popular Destinations</div>
+            <div class="card-row">
+                <div class="card" onclick="changeHero('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1600', 'Chicago Loop')">
+                    <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400" class="card-img">
+                    <div class="card-name">Chicago Loop</div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Function to update the Hero Card dynamically
-        function updateHero(name, desc, imgUrl) {
-            const heroCard = document.getElementById('heroCard');
-            const heroTag = document.getElementById('heroLocationTag');
-            const heroDesc = document.getElementById('heroLocationDesc');
-
-            // Apply smooth fade out/in effect
-            heroCard.style.opacity = '0.7';
-            
-            setTimeout(() => {
-                heroCard.style.backgroundImage = `url('${imgUrl}')`;
-                heroTag.innerText = name;
-                heroDesc.innerText = desc;
-                heroCard.style.opacity = '1';
-            }, 200);
+        function changeHero(url, title) {
+            document.getElementById('heroBg').style.backgroundImage = `url('${url}')`;
+            document.getElementById('heroTitle').innerText = title;
         }
     </script>
-
 </body>
 </html>
