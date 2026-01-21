@@ -9,7 +9,7 @@
         :root {
             --pink: #FF1B6B;
             --aqua: #45CAFF;
-            --glass: rgba(0, 0, 0, 0.4);
+            --glass: rgba(0, 0, 0, 0.6);
         }
 
         body { 
@@ -21,70 +21,70 @@
             overflow: hidden; 
         }
 
-        /* 1. CINEMATIC BACKGROUND CANVAS */
-        #viewportBg {
-            position: fixed;
-            inset: 0;
-            background-image: url('https://images.unsplash.com/photo-1544013919-450191307b89?w=1600&q=80');
-            background-size: cover;
-            background-position: center;
-            z-index: 1;
-            transition: background-image 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        #viewportBg::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 20% 30%, transparent 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.9) 100%),
-                        linear-gradient(to top, #000 5%, transparent 40%);
-        }
-
-        /* 2. GLOSS HEADER */
+        /* 1. TOPBAR ANIMATION */
         .header {
             background: linear-gradient(-45deg, var(--pink), var(--aqua), #111, var(--pink));
             background-size: 400% 400%;
             animation: flow 15s ease infinite;
-            padding: 10px 40px;
+            padding: 8px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: fixed;
             top: 0; left: 0; right: 0;
             z-index: 1000;
-            height: 50px;
+            height: 45px;
         }
         @keyframes flow { 0% {background-position: 0% 50%} 50% {background-position: 100% 50%} 100% {background-position: 0% 50%} }
 
         .search-bar {
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(0, 0, 0, 0.5);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 15px;
+            padding: 6px 15px;
             border-radius: 8px;
             width: 400px;
             color: #fff;
             font-size: 13px;
         }
 
-        /* 3. GLASS SIDEBAR */
+        /* 2. BUTTON PLACEMENT (Directly under Topbar) */
+        .filter-shelf { 
+            position: fixed;
+            top: 60px;
+            left: 280px; 
+            display: flex; 
+            gap: 10px; 
+            z-index: 1000;
+        }
+        .pill { 
+            background: rgba(255, 255, 255, 0.1); 
+            backdrop-filter: blur(15px);
+            padding: 8px 18px; 
+            border-radius: 10px; 
+            font-weight: 700; 
+            font-size: 12px;
+            cursor: pointer;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .pill.active { background: var(--aqua); color: #000; border-color: var(--aqua); }
+
+        /* 3. SIDEBAR */
         .sidebar {
             width: 240px;
             height: 100vh;
             position: fixed;
             left: 0; top: 0;
             background: var(--glass);
-            backdrop-filter: blur(25px);
-            padding: 80px 20px 20px;
+            backdrop-filter: blur(30px);
+            padding: 70px 20px 20px;
             border-right: 1px solid rgba(255, 255, 255, 0.05);
             z-index: 900;
         }
-        .sidebar-label { color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 30px 0 10px; }
-        .sidebar-item { display: flex; align-items: center; padding: 10px; border-radius: 10px; margin-bottom: 4px; cursor: pointer; transition: 0.2s; font-size: 13px; }
-        .sidebar-item:hover { background: rgba(255,255,255,0.1); }
-        .avatar { width: 28px; height: 28px; border-radius: 50%; margin-right: 12px; }
-        .online { width: 7px; height: 7px; border-radius: 50%; background: #00E701; margin-left: auto; box-shadow: 0 0 8px #00E701; }
+        .sidebar-label { color: rgba(255,255,255,0.4); font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin: 25px 0 10px; }
+        .sidebar-item { display: flex; align-items: center; padding: 8px; border-radius: 8px; margin-bottom: 4px; cursor: pointer; font-size: 12px; }
 
-        /* 4. CONTENT SCROLL LAYER */
+        /* 4. CONTENT AREA */
         .content-container {
             margin-left: 240px;
             height: 100vh;
@@ -92,162 +92,128 @@
             z-index: 10;
             overflow-y: auto;
             scrollbar-width: none;
-            padding: 100px 50px 50px;
+            padding: 130px 50px 50px;
         }
         .content-container::-webkit-scrollbar { display: none; }
 
-        /* HERO TEXT BLOCK */
-        .hero-block { max-width: 700px; margin-bottom: 60px; }
-        .hero-pre { text-transform: uppercase; letter-spacing: 4px; font-weight: 800; font-size: 11px; color: var(--aqua); }
-        .hero-main-title { font-size: 64px; font-weight: 800; margin: 5px 0; letter-spacing: -2px; }
+        /* 5. HERO GRID (Matching DTA_HOME.png) */
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.8fr 1fr;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .lion-rock-carousel {
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://lh3.googleusercontent.com/d/1gNqXDF0QRBGCli5CTH27J2TWN0gvZyye=w1200');
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            height: 420px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+        }
+
+        .promo-card {
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1551698618-1fed5d97530d?auto=format&fit=crop&w=600');
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            height: 420px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 30px;
+        }
+
         .hero-tagline { 
             background: var(--pink); 
             display: inline-block; 
-            padding: 5px 15px; 
-            border-radius: 6px; 
+            padding: 6px 16px; 
+            border-radius: 8px; 
             font-weight: 800; 
-            font-size: 22px; 
-            margin-bottom: 10px;
+            font-size: 24px; 
+            margin: 10px 0;
         }
-        .hero-cta { display: flex; gap: 15px; margin-top: 25px; }
-        .btn { padding: 12px 35px; border-radius: 10px; border: none; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .btn-blue { background: var(--aqua); color: #000; }
-        .btn-outline { background: rgba(255,255,255,0.1); color: #fff; backdrop-filter: blur(10px); }
-
-        /* 5. FILTER PILLS */
-        .filter-shelf { display: flex; gap: 10px; margin-bottom: 50px; }
-        .pill { 
-            background: rgba(255,255,255,0.08); 
-            padding: 8px 18px; 
-            border-radius: 10px; 
-            font-weight: 700; 
-            font-size: 13px;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.05);
-        }
-        .pill.active { background: var(--aqua); color: #000; }
 
         /* 6. DESTINATION SHELVES */
-        .shelf-title { font-size: 13px; font-weight: 800; color: var(--aqua); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
-        .card-row { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 30px; margin-bottom: 20px; }
+        .shelf-title { font-size: 14px; font-weight: 800; color: var(--aqua); text-transform: uppercase; letter-spacing: 2px; margin: 30px 0 20px; }
+        .card-row { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 20px; }
         .card-row::-webkit-scrollbar { display: none; }
 
         .dest-card {
-            flex: 0 0 170px;
-            border-radius: 14px;
+            flex: 0 0 180px;
+            border-radius: 12px;
             overflow: hidden;
-            position: relative;
             cursor: pointer;
-            transition: 0.4s cubic-bezier(0.2, 1, 0.3, 1);
-            border: 1px solid rgba(255,255,255,0.05);
+            transition: 0.3s;
         }
-        .dest-card:hover { transform: scale(1.08); border-color: var(--aqua); box-shadow: 0 15px 30px rgba(0,0,0,0.6); }
-        .card-img { width: 100%; aspect-ratio: 10/14; object-fit: cover; }
-        .card-info {
-            position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent 60%);
-            display: flex; flex-direction: column; justify-content: flex-end; padding: 12px;
-        }
-        .card-label { font-weight: 800; font-size: 13px; margin-bottom: 2px; }
-        .card-stat { font-size: 10px; opacity: 0.6; }
+        .dest-card:hover { transform: translateY(-5px); }
+        .card-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 12px; }
 
     </style>
 </head>
 <body>
 
     <header class="header">
-        <div class="logo"><img src="https://fourinspace.github.io/DTA/logo.png" height="30"></div>
-        <input type="text" class="search-bar" placeholder="Search cities, landmarks, or guides...">
-        <div style="font-weight: 800; font-size: 12px; cursor: pointer;">LOG IN</div>
+        <div class="logo">DTA EXPLORE</div>
+        <input type="text" class="search-bar" placeholder="Search cities, guides, or landmarks...">
+        <div style="font-weight: 800; font-size: 12px; cursor: pointer;">Log In</div>
     </header>
 
-    <nav class="sidebar">
-        <div class="sidebar-label">Guides Online</div>
-        <div class="sidebar-item">
-            <div class="avatar" style="background:var(--pink)"></div>
-            <span>Max (Paris)</span><div class="online"></div>
-        </div>
-        <div class="sidebar-item">
-            <div class="avatar" style="background:var(--aqua)"></div>
-            <span>Kimi (Tokyo)</span><div class="online"></div>
-        </div>
-
-        <div class="sidebar-label" style="margin-top:40px">Explore Regions</div>
-        <div class="sidebar-item">🌍 Europe</div>
-        <div class="sidebar-item">🏙️ North America</div>
-        <div class="sidebar-item">⛩️ Asia</div>
+    <nav class="filter-shelf">
+        <div class="pill">Micro-Trips</div>
+        <div class="pill">Macro-Journeys</div>
+        <div class="pill">Ride-Along</div>
+        <div class="pill active">LOTTERY</div>
+        <div class="pill">Snow-Adventure</div>
     </nav>
 
-    <div id="viewportBg"></div>
-    
+    <nav class="sidebar">
+        <div class="sidebar-label">Recommended Guides</div>
+        <div class="sidebar-item"><div style="width:24px;height:24px;background:var(--pink);border-radius:50%;margin-right:10px"></div> Max (Paris)</div>
+        <div class="sidebar-item"><div style="width:24px;height:24px;background:var(--aqua);border-radius:50%;margin-right:10px"></div> Kimi (Tokyo)</div>
+    </nav>
+
     <main class="content-container">
         
-        <section class="hero-block">
-            <p class="hero-pre" id="regionLabel">Sri Lanka</p>
-            <div class="hero-tagline" id="mainTitle">Sigiriya: 'Lion Rock'</div>
-            <p id="heroDesc" style="font-size: 18px; color: rgba(255,255,255,0.7);">Ancient Rock Fortress. Experience the heart of the jungle from 200m above.</p>
-            
-            <div class="hero-cta">
-                <button class="btn btn-blue">VIEW GUIDES</button>
-                <button class="btn btn-outline">BOOK TRIP</button>
+        <div class="hero-grid">
+            <div class="lion-rock-carousel">
+                <span style="font-weight: 800; font-size: 18px;">Unique locations</span>
+                <div>
+                    <span class="hero-tagline">Sigiriya: 'Lion Rock'</span>
+                    <p style="font-weight: 600; font-size: 16px;">Ancient Rock Fortress</p>
+                </div>
             </div>
-        </section>
 
-        <nav class="filter-shelf">
-            <div class="pill">Micro-Trips</div>
-            <div class="pill">Macro-Journeys</div>
-            <div class="pill">Ride-Along</div>
-            <div class="pill active">LOTTERY</div>
-            <div class="pill">Snow-Adventure</div>
-        </nav>
+            <div class="promo-card">
+                <h2 style="font-weight: 900; font-size: 26px; margin-bottom: 10px;">Treasure Hunt</h2>
+                <p style="font-size: 14px; margin-bottom: 20px;">Win Actual Trips To Your Dream Location!</p>
+                <span style="font-weight: 800; color: var(--aqua); font-size: 18px;">Booking.com</span>
+            </div>
+        </div>
 
         <h2 class="shelf-title">Recent Destinations</h2>
         <section class="card-row">
-            <div class="dest-card" onclick="updateEnv('Japan', 'Tokyo Nights', 'Exploring Shibuya crossing at midnight.', 'https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=1600')">
+            <div class="dest-card">
                 <img src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=400" class="card-img">
-                <div class="card-info"><div class="card-label">Tokyo Nights</div><div class="card-stat">👤 12.4K Active</div></div>
+                <p style="font-weight: 800; font-size: 13px; margin: 10px 0 2px 0;">Tokyo Nights</p>
+                <p style="font-size: 10px; color: #666;">👤 12.4K Active</p>
             </div>
-            <div class="dest-card" onclick="updateEnv('France', 'Paris Sunrise', 'Morning light over the Eiffel Tower.', 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=1600')">
+            <div class="dest-card">
                 <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400" class="card-img">
-                <div class="card-info"><div class="card-label">Paris Sunrise</div><div class="card-stat">👤 8.1K Active</div></div>
-            </div>
-            <div class="dest-card" onclick="updateEnv('UK', 'London Rain', 'Moody streets of Westminster.', 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=1600')">
-                <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400" class="card-img">
-                <div class="card-info"><div class="card-label">London Rain</div><div class="card-stat">👤 4.2K Active</div></div>
-            </div>
-        </section>
-
-        <h2 class="shelf-title">Popular Worldwide</h2>
-        <section class="card-row">
-            <div class="dest-card" onclick="updateEnv('USA', 'Chicago Loop', 'Architecture and energy in the Windy City.', 'https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=1600')">
-                <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400" class="card-img">
-                <div class="card-info"><div class="card-label">Chicago Loop</div><div class="card-stat">👤 5.2K Active</div></div>
-            </div>
-            <div class="dest-card" onclick="updateEnv('USA', 'SF Golden Gate', 'The bridge through the rolling fog.', 'https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=1600')">
-                <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=400" class="card-img">
-                <div class="card-info"><div class="card-label">SF Golden Gate</div><div class="card-stat">👤 3.9K Active</div></div>
+                <p style="font-weight: 800; font-size: 13px; margin: 10px 0 2px 0;">Paris Sunrise</p>
+                <p style="font-size: 10px; color: #666;">👤 8.1K Active</p>
             </div>
         </section>
 
     </main>
 
-    <script>
-        // Interactive Logic to Swap Environment
-        function updateEnv(region, title, desc, url) {
-            const bg = document.getElementById('viewportBg');
-            const hPre = document.getElementById('regionLabel');
-            const hTitle = document.getElementById('mainTitle');
-            const hDesc = document.getElementById('heroDesc');
-
-            // Fade transition logic
-            bg.style.opacity = '0.4';
-            setTimeout(() => {
-                bg.style.backgroundImage = `url('${url}')`;
-                hPre.innerText = region;
-                hTitle.innerText = title;
-                hDesc.innerText = desc;
-                bg.style.opacity = '1';
-            }, 300);
-        }
-    </script>
 </body>
 </html>
