@@ -111,20 +111,32 @@
         }
         .filter-tag.active { background: #45CAFF; color: #000; }
 
-        /* 5. SCALABLE DESTINATION ROW */
-        .grid-section-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+        /* 5. SIDE-BY-SIDE GRID WRAPPER */
+        .dual-grid-container {
+            display: flex;
+            gap: 40px; /* Space between the two sections */
+            width: 100%;
+        }
+
+        .grid-section {
+            flex: 1; /* Makes both Recent and Popular take up half the width */
+            min-width: 0; /* Important for flex-child content to scroll instead of pushing width */
+        }
+
+        .grid-section-title { font-size: 18px; font-weight: 700; margin-bottom: 20px; color: #45CAFF; }
         
         .scalable-row {
             display: flex;
-            gap: 20px;
-            margin-bottom: 50px;
-            width: 100%;
+            flex-wrap: nowrap;
+            gap: 15px;
+            overflow-x: auto;
+            padding-bottom: 15px;
+            scrollbar-width: none;
         }
+        .scalable-row::-webkit-scrollbar { display: none; }
         
         .dest-card { 
-            flex: 1;
-            min-width: 150px;
-            max-width: 280px;
+            flex: 0 0 160px; /* Adjusted width for side-by-side layout */
             border-radius: 12px; 
             overflow: hidden; 
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -132,16 +144,16 @@
         }
 
         .dest-card:hover {
-            transform: scale(1.04);
+            transform: scale(1.05);
             box-shadow: 0 10px 20px rgba(69, 202, 255, 0.15);
         }
 
         .dest-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 12px; }
-        .dest-name { font-weight: 700; font-size: 14px; margin: 12px 0 4px 0; }
-        .dest-stat { font-size: 11px; color: #666; }
+        .dest-name { font-weight: 700; font-size: 13px; margin: 10px 0 2px 0; }
+        .dest-stat { font-size: 10px; color: #666; }
 
         .see-all-card {
-            flex: 0 0 160px;
+            flex: 0 0 100px;
             background: #111;
             border-radius: 12px;
             display: flex;
@@ -152,8 +164,8 @@
         }
 
         .arrow-circle {
-            background: #fff; color: #000; width: 32px; height: 32px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center; margin-bottom: 12px;
+            background: #fff; color: #000; width: 28px; height: 28px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 8px;
         }
     </style>
 </head>
@@ -200,63 +212,60 @@
             <div class="filter-tag">Snow-Adventure</div>
         </div>
 
-        <div class="grid-section-title">Recent Destinations</div>
-        <div class="scalable-row" id="recentGrid">
-            <div class="dest-card" data-name="tokyo">
-                <img src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=400" class="dest-img">
-                <p class="dest-name">Tokyo Nights</p>
-                <p class="dest-stat">👤 12.4K Active</p>
+        <div class="dual-grid-container">
+            
+            <div class="grid-section">
+                <div class="grid-section-title">Recent Destinations</div>
+                <div class="scalable-row">
+                    <div class="dest-card" data-name="tokyo">
+                        <img src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=400" class="dest-img">
+                        <p class="dest-name">Tokyo Nights</p>
+                        <p class="dest-stat">👤 12.4K Active</p>
+                    </div>
+                    <div class="dest-card" data-name="paris">
+                        <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400" class="dest-img">
+                        <p class="dest-name">Paris Sunrise</p>
+                        <p class="dest-stat">👤 8.1K Active</p>
+                    </div>
+                    <div class="see-all-card">
+                        <div class="arrow-circle">→</div>
+                        <span style="font-weight: 700; font-size: 12px;">See All</span>
+                    </div>
+                </div>
             </div>
-            <div class="dest-card" data-name="paris">
-                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400" class="dest-img">
-                <p class="dest-name">Paris Sunrise</p>
-                <p class="dest-stat">👤 8.1K Active</p>
-            </div>
-            <div class="see-all-card">
-                <div class="arrow-circle">→</div>
-                <span style="font-weight: 700;">See All</span>
-            </div>
-        </div>
 
-        <div class="grid-section-title">Popular Destinations</div>
-        <div class="scalable-row" id="popularGrid">
-            <div class="dest-card" data-name="chicago">
-                <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400" class="dest-img">
-                <p class="dest-name">Chicago Loop</p>
-                <p class="dest-stat">👤 5.2K Active</p>
+            <div class="grid-section">
+                <div class="grid-section-title">Popular Destinations</div>
+                <div class="scalable-row">
+                    <div class="dest-card" data-name="chicago">
+                        <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400" class="dest-img">
+                        <p class="dest-name">Chicago Loop</p>
+                        <p class="dest-stat">👤 5.2K Active</p>
+                    </div>
+                    <div class="dest-card" data-name="san francisco">
+                        <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=400" class="dest-img">
+                        <p class="dest-name">SF Golden Gate</p>
+                        <p class="dest-stat">👤 3.9K Active</p>
+                    </div>
+                    <div class="see-all-card">
+                        <div class="arrow-circle">→</div>
+                        <span style="font-weight: 700; font-size: 12px;">See All</span>
+                    </div>
+                </div>
             </div>
-            <div class="dest-card" data-name="san francisco">
-                <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=400" class="dest-img">
-                <p class="dest-name">SF Golden Gate</p>
-                <p class="dest-stat">👤 3.9K Active</p>
-            </div>
-            <div class="dest-card" data-name="london">
-                <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400" class="dest-img">
-                <p class="dest-name">London Rain</p>
-                <p class="dest-stat">👤 2.1K Active</p>
-            </div>
-            <div class="see-all-card">
-                <div class="arrow-circle">→</div>
-                <span style="font-weight: 700;">See All</span>
-            </div>
+
         </div>
     </div>
 
     <script>
-        // Real-time Search Logic
         const searchInput = document.getElementById('destinationSearch');
         const cards = document.querySelectorAll('.dest-card');
 
         searchInput.addEventListener('input', (e) => {
             const term = e.target.value.toLowerCase();
-            
             cards.forEach(card => {
                 const name = card.getAttribute('data-name').toLowerCase();
-                if (name.includes(term)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+                card.style.display = name.includes(term) ? 'block' : 'none';
             });
         });
     </script>
