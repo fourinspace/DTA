@@ -1,38 +1,264 @@
-<div class="filter-row">
-    <div class="filter-tag">Micro-Trips</div>
-    <div class="filter-tag">Macro-Journeys</div>
-    <div class="filter-tag">Ride-Along</div>
-    <div class="filter-tag active">LOTTERY</div>
-    <div class="filter-tag">Snow-Adventure</div>
-</div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DTA Explorer - Travel Without Moving</title>
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #000000; 
+            color: #ffffff; 
+            margin: 0; 
+            overflow-x: hidden;
+        }
 
-<style>
-    /* Filter Row Styles */
-    .filter-row { 
-        display: flex; 
-        gap: 12px; 
-        margin: 30px 0; /* Provides spacing between the hero and the content below */
-    }
+        /* 1. TOP NAV */
+        .header {
+            background: #000;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid #111;
+        }
+        
+        .logo-img { height: 40px; }
+        
+        .search-bar {
+            background: #333333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            width: 450px;
+            color: white;
+            outline: none;
+        }
 
-    .filter-tag {
-        background: #1A1A1A; /* Dark pill background */
-        padding: 10px 22px;
-        border-radius: 12px;
-        font-size: 14px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: 0.2s ease;
-        color: #fff;
-        border: 1px solid transparent;
-    }
+        /* 2. SIDEBAR */
+        .sidebar {
+            width: 240px;
+            height: calc(100vh - 60px);
+            position: fixed;
+            left: 0;
+            background: #000;
+            padding: 20px;
+            border-right: 1px solid #111;
+        }
+        .sidebar-label { color: #555; font-size: 11px; font-weight: 700; text-transform: uppercase; margin-bottom: 15px; }
+        .sidebar-item { display: flex; align-items: center; padding: 10px 0; cursor: pointer; font-size: 14px; }
+        .avatar { width: 24px; height: 24px; border-radius: 50%; margin-right: 12px; }
+        .online-dot { width: 8px; height: 8px; border-radius: 50%; background: #00E701; margin-left: auto; }
 
-    .filter-tag:hover {
-        background: #222;
-        border-color: #333;
-    }
+        /* 3. MAIN CONTENT */
+        .main-content { margin-left: 280px; padding: 20px 40px; }
 
-    .filter-tag.active { 
-        background: #45CAFF; /* Aqua highlight for the active state */
-        color: #000; 
-    }
-</style>
+        /* Hero Layout */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .carousel-card {
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent), url('https://images.unsplash.com/photo-1544013919-450191307b89?w=1200');
+            background-size: cover;
+            background-position: center;
+            border-radius: 20px;
+            height: 400px;
+            position: relative;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .promo-card {
+            background: url('https://images.unsplash.com/photo-1501503060443-ef4ed1670242?w=600') center/cover;
+            border-radius: 20px;
+            height: 400px;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+            text-align: center;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .promo-overlay {
+            background: rgba(0, 0, 0, 0.4);
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* 4. BUTTON FILTERS - Updated Placement */
+        .filter-row { 
+            display: flex; 
+            gap: 12px; 
+            margin: 40px 0; 
+        }
+
+        .filter-tag {
+            background: #1A1A1A;
+            padding: 10px 22px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s ease;
+            color: #fff;
+            border: 1px solid transparent;
+        }
+
+        .filter-tag:hover {
+            background: #222;
+            border-color: #333;
+        }
+
+        .filter-tag.active { 
+            background: #45CAFF; 
+            color: #000; 
+        }
+
+        /* 5. GRID CONTENT */
+        .grid-section-title { font-size: 20px; font-weight: 700; margin-bottom: 20px; }
+        
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 50px;
+        }
+        
+        .dest-card { border-radius: 12px; overflow: hidden; transition: 0.3s ease; }
+        .dest-card:hover { transform: translateY(-5px); }
+        .dest-img { width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 12px; }
+        .dest-name { font-weight: 700; font-size: 14px; margin: 12px 0 4px 0; }
+        .dest-stat { font-size: 11px; color: #666; }
+
+        .see-all-card {
+            background: #111;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .see-all-card:hover { background: #161616; }
+        .arrow-circle {
+            background: #fff;
+            color: #000;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="logo"><img src="https://fourinspace.github.io/DTA/logo.png" class="logo-img" alt="DTA"></div>
+        <input type="text" class="search-bar" placeholder="Search cities, guides, or landmarks...">
+        <div style="font-weight: 600; color: #FF1B6B; cursor: pointer;">Log In</div>
+    </header>
+
+    <div class="sidebar">
+        <div class="sidebar-label">Recommended Guides</div>
+        <div class="sidebar-item"><div class="avatar" style="background: #FF1B6B;"></div> Max (Paris) <div class="online-dot"></div></div>
+        <div class="sidebar-item"><div class="avatar" style="background: #45CAFF;"></div> Kimi (Tokyo) <div class="online-dot"></div></div>
+        
+        <div class="sidebar-label" style="margin-top: 40px;">Live Regions</div>
+        <div class="sidebar-item">🌍 Europe</div>
+        <div class="sidebar-item">🏙️ North America</div>
+        <div class="sidebar-item">⛩️ Asia</div>
+    </div>
+
+    <div class="main-content">
+        <div class="hero-section">
+            <div class="carousel-card">
+                <span style="font-weight: 800; font-size: 18px; color: #fff;">Unique locations</span>
+                <div>
+                    <span style="background: #FF1B6B; padding: 6px 12px; border-radius: 6px; font-weight: 800; font-size: 22px;">Sigiriya: 'Lion Rock'</span>
+                    <p style="margin-top: 8px; font-weight: 500;">Ancient Rock Fortress</p>
+                </div>
+            </div>
+            <div class="promo-card">
+                <div class="promo-overlay">
+                    <h2 style="font-weight: 900; font-size: 24px; margin-bottom: 10px;">Treasure Hunt</h2>
+                    <p style="font-size: 14px; margin-bottom: 20px;">Enter Daily Adventures And Win Actual Trips To Your Dream Location!</p>
+                    <span style="font-weight: 800; color: #45CAFF; font-size: 18px;">Booking.com</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="filter-row">
+            <div class="filter-tag">Micro-Trips</div>
+            <div class="filter-tag">Macro-Journeys</div>
+            <div class="filter-tag">Ride-Along</div>
+            <div class="filter-tag active">LOTTERY</div>
+            <div class="filter-tag">Snow-Adventure</div>
+        </div>
+
+        <div class="grid-section-title">Recent Destinations</div>
+        <div class="grid-container">
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?w=400" class="dest-img">
+                <p class="dest-name">Tokyo Nights</p>
+                <p class="dest-stat">👤 12.4K Active</p>
+            </div>
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=400" class="dest-img">
+                <p class="dest-name">Paris Sunrise</p>
+                <p class="dest-stat">👤 8.1K Active</p>
+            </div>
+            <div class="see-all-card">
+                <div class="arrow-circle">→</div>
+                <span style="font-weight: 700; font-size: 14px;">See All</span>
+            </div>
+        </div>
+
+        <div class="grid-section-title">Popular Destinations</div>
+        <div class="grid-container">
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?w=400" class="dest-img">
+                <p class="dest-name">Chicago Loop</p>
+                <p class="dest-stat">👤 5.2K Active</p>
+            </div>
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1449034446853-66c86144b0ad?w=400" class="dest-img">
+                <p class="dest-name">SF Golden Gate</p>
+                <p class="dest-stat">👤 3.9K Active</p>
+            </div>
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=400" class="dest-img">
+                <p class="dest-name">London Rain</p>
+                <p class="dest-stat">👤 2.1K Active</p>
+            </div>
+            <div class="see-all-card">
+                <div class="arrow-circle">→</div>
+                <span style="font-weight: 700; font-size: 14px;">See All</span>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
